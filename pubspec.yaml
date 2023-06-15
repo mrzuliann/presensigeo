@@ -1,0 +1,38 @@
+name: presensimob
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies: 
+  cupertino_icons: ^1.0.2
+  get: ^4.6.5
+  
+  shared_preferences: ^2.0.6
+  flutter_easyloading: ^3.0.5
+  sp_util: ^2.0.3 
+  flutter_map: ^2.2.0
+  latlong2: ^0.8.1 
+  cached_network_image: ^3.2.1
+  geocoding: ^2.0.4
+  carousel_slider: ^4.2.1 
+  motion_tab_bar: ^0.1.5
+  
+
+
+  flutter: 
+    sdk: flutter
+  get_cli: ^1.8.1
+
+dev_dependencies: 
+  flutter_lints: ^2.0.0
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  uses-material-design: true
+  assets:
+    - images/balangan.png
+    - images/user.png
+    - images/disdik.png
