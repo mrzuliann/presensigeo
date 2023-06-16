@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:presensimob/app/data/login_provider.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
@@ -27,8 +28,9 @@ class LoginController extends GetxController {
         "email": email,
         "password": password,
       };
-      LoginProvider().auth(data).then((value) {
+      LoginProvider().auth(data).then((value) async {
         if (value.statusCode == 200) {
+          await Geolocator.requestPermission();
           // check debug value if 200
           var responseBody = value.body;
           var data = responseBody['data'];

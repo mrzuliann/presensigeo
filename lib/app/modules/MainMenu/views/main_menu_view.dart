@@ -59,10 +59,7 @@ class MainMenuView extends GetView<MainMenuController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      Get.offAllNamed(
-                          Routes.PRESENSI_IN); // Kembali ke halaman sebelumnya
-                    },
+                    onPressed: () => controller.goingToPresensiIn(),
                     style: ElevatedButton.styleFrom(
                         minimumSize: Size(150, 80),
                         backgroundColor: Color.fromARGB(255, 249, 111, 111)),
@@ -76,6 +73,9 @@ class MainMenuView extends GetView<MainMenuController> {
                           "Presensi Masuk",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        const SizedBox(
+                          height: 5,
                         ),
                       ],
                     ),
