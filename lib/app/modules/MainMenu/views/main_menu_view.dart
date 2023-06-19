@@ -44,7 +44,7 @@ class MainMenuView extends GetView<MainMenuController> {
               height: 10,
             ),
             Text(
-              "Di Presensi Mobile, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")}",
+              "Di Presensi Mobile, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")} \nSekolah: ${SpUtil.getInt("school_id")}",
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ),
