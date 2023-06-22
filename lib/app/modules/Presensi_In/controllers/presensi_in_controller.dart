@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -7,8 +8,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:presensimob/app/data/presensi_provider.dart';
 import 'package:presensimob/app/models/general_data_hardcode_value.dart';
 import 'package:presensimob/app/models/presensi_request.dart';
+import 'package:presensimob/app/utils/get_bytes.dart';
 import 'package:presensimob/app/utils/get_location.dart';
 import 'package:presensimob/app/utils/hardcode_data.dart';
+import 'package:safe_device/safe_device.dart';
 import 'package:sp_util/sp_util.dart';
 
 class PresensiInController extends GetxController {
@@ -18,9 +21,17 @@ class PresensiInController extends GetxController {
 
   RxDouble latitude = 0.0.obs;
   RxDouble longitude = 0.0.obs;
+
+  RxDouble latitudeDestination = 0.0.obs;
+  RxDouble longitudeDestination = 0.0.obs;
+  RxDouble radius = 0.0.obs;
+
   RxBool isLoadingRequest = false.obs;
   LatLng? center;
+  BitmapDescriptor? originIcon;
 
+  List<Marker> markers = <Marker>[].obs;
+  List<Circle> circles = <Circle>[].obs;
   ValueNotifier<CameraPosition?> mapInitialPosition =
       ValueNotifier<CameraPosition?>(null);
 
@@ -36,6 +47,12 @@ class PresensiInController extends GetxController {
   void onInit() {
     super.onInit();
     setupPermissionandLocation();
+    setSourceIcons();
+    latitudeDestination.value =
+        double.parse('${SpUtil.getString('school_latitude', defValue: '0')}');
+    longitudeDestination.value =
+        double.parse('${SpUtil.getString('school_longitude', defValue: '0')}');
+    radius.value = SpUtil.getDouble('radius', defValue: 0)!;
   }
 
   @override
@@ -46,6 +63,35 @@ class PresensiInController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  void setSourceIcons() async {
+    final Uint8List imageData =
+        await GetBytes.getBytesFromAsset('images/ic_marker_edu.png', 120);
+
+    originIcon = BitmapDescriptor.fromBytes(imageData);
+  }
+
+  void setMapPins() {
+    markers.add(Marker(
+        markerId: const MarkerId('1'),
+        position: LatLng(latitudeDestination.value, longitudeDestination.value),
+        icon: originIcon!));
+
+    update();
+  }
+
+  void setCircles() {
+    circles.add(
+      Circle(
+        circleId: CircleId('1'),
+        center: LatLng(latitudeDestination.value, longitudeDestination.value),
+        radius: radius.value,
+        fillColor: Colors.blue.shade50,
+        strokeColor: Colors.blue,
+        strokeWidth: 3,
+      ),
+    );
   }
 
   void setupPermissionandLocation() async {
@@ -75,26 +121,52 @@ class PresensiInController extends GetxController {
 
   Future<void> submitForm() async {
     try {
+      double distance = Geolocator.distanceBetween(
+        latitude.value,
+        longitude.value,
+        latitudeDestination.value,
+        longitudeDestination.value,
+      );
+
+      bool canMockLocation = await SafeDevice.canMockLocation;
+
+      debugPrint('ini distance $distance $canMockLocation');
+
       if (formKey.currentState?.validate() ?? false) {
-        isLoadingRequest(true);
-        var request = PresensiRequest(
-            latitude: latitude.value.toString(),
-            longitude: longitude.toString(),
-            phId: "1",
-            psId: dropdownStatusValue.value);
+        if (distance <= radius.value) {
+          if (canMockLocation) {
+            Get.snackbar(
+              "Error",
+              "Anda tidak dapat melakukan absensi",
+              backgroundColor: Colors.red,
+              colorText: Colors.white,
+            );
+          } else {
+            isLoadingRequest(true);
+            var request = PresensiRequest(
+                latitude: latitude.value.toString(),
+                longitude: longitude.toString(),
+                phId: "1",
+                psId: dropdownStatusValue.value);
 
-        var response =
-            await PresensiProvider().sentPresensiLocation(data: request);
+            var response =
+                await PresensiProvider().sentPresensiLocation(data: request);
 
-        if (response != null) {
-          SpUtil.putString('jam_masuk', response.masuk ?? '');
-          SpUtil.putString('status_presensi', response.psId ?? '');
-
-          Get.back(result: true);
+            if (response != null) {
+              Get.back(result: true);
+            } else {
+              Get.snackbar(
+                "Error",
+                "Silahkan Coba Lagi",
+                backgroundColor: Colors.red,
+                colorText: Colors.white,
+              );
+            }
+          }
         } else {
           Get.snackbar(
             "Error",
-            "Silahkan Coba Lagi",
+            "Anda harus berada paling jauh 50 meter dari sekolah agar bisa melakukan absensi",
             backgroundColor: Colors.red,
             colorText: Colors.white,
           );
