@@ -41,7 +41,7 @@ class LoginController extends GetxController {
           // SpUtil.putInt('nip', data['nip']);
           // SpUtil.putInt('school_id', data['school_id']);
           SpUtil.putString('nip', data['nip'].toString());
-          SpUtil.putInt('school_id', data['school_id']);
+          // SpUtil.putInt('school_id', data['school_id']);
           SpUtil.putString('token', data['token']);
           SpUtil.putString('email', data['email']);
           SpUtil.putString('id', data['id'].toString());

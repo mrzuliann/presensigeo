@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/main_menu_controller.dart';
 
@@ -44,7 +45,7 @@ class MainMenuView extends GetView<MainMenuController> {
               height: 10,
             ),
             Text(
-              "Di Presensi Mobile, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")} \nSekolah: ${SpUtil.getInt("school_id")}",
+              "Di Presensi Mobile, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")}",
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ),
@@ -138,7 +139,11 @@ class MainMenuView extends GetView<MainMenuController> {
               height: 10,
             ),
             CarouselSlider(
-              options: CarouselOptions(height: 180.0),
+              options: CarouselOptions(
+                height: 180.0,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 3),
+              ),
               items: [1, 2, 3, 4, 5].map((i) {
                 return Builder(
                   builder: (BuildContext context) {
@@ -158,8 +163,32 @@ class MainMenuView extends GetView<MainMenuController> {
             ),
             ElevatedButton(
               onPressed: () {
-                SpUtil.clear();
-                Get.offAllNamed(Routes.HOME);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Konfirmasi Logout"),
+                      content: Text("Apakah Anda yakin ingin keluar?"),
+                      actions: <Widget>[
+                        ElevatedButton(
+                          child: Text("Ya"),
+                          onPressed: () {
+                            // Tindakan yang diambil jika pengguna menekan tombol "Ya"
+                            SpUtil.clear();
+                            Get.offAllNamed(Routes.HOME);
+                          },
+                        ),
+                        ElevatedButton(
+                          child: Text("Tidak"),
+                          onPressed: () {
+                            // Tindakan yang diambil jika pengguna menekan tombol "Tidak"
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               child: Text(
                 "Logout",
@@ -177,23 +206,29 @@ class MainMenuView extends GetView<MainMenuController> {
               icon: Icon(Icons.add_chart_rounded),
               onPressed: () {
                 SpUtil.clear();
-                Get.offAllNamed(Routes.HOME);
+                Get.offAllNamed(Routes.LAPORAN_PRESENSI);
               },
             ),
             label: 'Laporan',
           ),
           BottomNavigationBarItem(
-            icon: IconButton(
-              icon: Icon(Icons.forum_rounded),
-              onPressed: () {
-                SpUtil.clear();
-                Get.offAllNamed(Routes.PRESENSI_IN);
+            icon: InkWell(
+              onTap: () {
+                // Aksi ketika tombol ditekan
+                launch('https://t.me/presensiguru');
               },
+              child: Icon(Icons.forum_rounded),
             ),
             label: 'Forum',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: IconButton(
+              icon: Icon(Icons.security_rounded),
+              onPressed: () {
+                SpUtil.clear();
+                Get.offAllNamed(Routes.PENGUMUMAN);
+              },
+            ),
             label: 'Settings',
           ),
         ],

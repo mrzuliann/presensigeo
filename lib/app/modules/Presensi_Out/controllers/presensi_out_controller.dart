@@ -33,6 +33,7 @@ class PresensiOutController extends GetxController {
           .obs;
   @override
   void onInit() {
+    setupPermissionandLocation();
     super.onInit();
   }
 
@@ -62,7 +63,7 @@ class PresensiOutController extends GetxController {
 
         mapInitialPosition.value = CameraPosition(
           target: LatLng(locationData.latitude, locationData.longitude),
-          zoom: 15.0,
+          zoom: 17.0,
         );
 
         latitude.value = locationData.latitude;
