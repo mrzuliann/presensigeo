@@ -14,6 +14,7 @@ class PresensiOutView extends GetView<PresensiOutController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Presensi Keluar'),
+        backgroundColor: Colors.teal,
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -55,8 +56,8 @@ class PresensiOutView extends GetView<PresensiOutController> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
                   ),
                 ),
                 child: Form(

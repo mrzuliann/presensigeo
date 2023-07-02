@@ -45,13 +45,17 @@ class LoginController extends GetxController {
           SpUtil.putString('token', data['token']);
           SpUtil.putString('email', data['email']);
           SpUtil.putString('id', data['id'].toString());
+          SpUtil.putString('school_name', data['school']['name']);
+          SpUtil.putString('school_latitude', data['school']['latitude']);
+          SpUtil.putString('school_longitude', data['school']['longitude']);
+          SpUtil.putDouble('radius', double.parse(data['school']['radius']));
           SpUtil.putBool('isLogin', true);
           //menuju routes: main menu
           Get.offAllNamed(Routes.MAIN_MENU);
 
           Get.snackbar(
             "Success",
-            "Login Berhasil",
+            "Login Berhasil ",
             backgroundColor: Color.fromARGB(255, 239, 120, 231),
             colorText: Colors.white,
           );

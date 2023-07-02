@@ -5,6 +5,7 @@ import 'package:presensimob/app/routes/app_pages.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import '../controllers/main_menu_controller.dart';
 
@@ -17,7 +18,7 @@ class MainMenuView extends GetView<MainMenuController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 56, 62, 236),
+        backgroundColor: Colors.teal,
         elevation: 0,
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
@@ -37,17 +38,21 @@ class MainMenuView extends GetView<MainMenuController> {
             Text(
               "Hallo Selamat Datang 👋👋👋,",
               style: TextStyle(
-                fontWeight: FontWeight.bold,
+                // fontWeight: FontWeight.bold,
                 fontSize: 20,
+                fontFamily: 'Roboto',
               ),
             ),
             SizedBox(
               height: 10,
             ),
             Text(
-              "Di Presensi Mobile, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")}",
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              "Di Presensi Mobile, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")} \nSekolah :  ${SpUtil.getString("school_name")}",
+              style: TextStyle(
+                color: Colors.black,
+                // fontWeight: FontWeight.w600,
+                fontFamily: 'Roboto',
+              ),
             ),
             SizedBox(
               height: 10,
@@ -59,51 +64,94 @@ class MainMenuView extends GetView<MainMenuController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                    onPressed: () => controller.goingToPresensiIn(),
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size(150, 80),
-                        backgroundColor: Color.fromARGB(255, 249, 111, 111)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.fingerprint_rounded,
-                            color: Colors.black), // Ikon presensi masuk
-                        SizedBox(height: 5), // Jarak antara ikon dan teks
-                        Text(
-                          "Presensi Masuk",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
+                  GestureDetector(
+                    onTap: () => controller.goingToPresensiIn(),
+                    child: Container(
+                      width: 160,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.teal,
+                            const Color.fromARGB(255, 121, 199, 191),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        const SizedBox(
-                          height: 5,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(5, 5),
+                            blurRadius: 10,
+                          )
+                        ],
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.fingerprint,
+                                color: Colors.white), // Ikon sidik jari
+                            SizedBox(height: 5), // Jarak antara ikon dan teks
+                            Text(
+                              'Presensi Masuk',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: 10,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Get.offAllNamed(
-                          Routes.PRESENSI_OUT); // Kembali ke halaman sebelumnya
-                    },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size(150, 80),
-                        backgroundColor: Colors.amberAccent),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.fingerprint_sharp,
-                            color: Colors.black), // Ikon presensi masuk
-                        SizedBox(height: 5), // Jarak antara ikon dan teks
-                        Text(
-                          "Presensi Pulang",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
+                  GestureDetector(
+                    onTap: () => controller.goingToPresensiOut(),
+                    child: Container(
+                      width: 160,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.teal,
+                            const Color.fromARGB(255, 121, 199, 191),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                      ],
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(5, 5),
+                            blurRadius: 10,
+                          )
+                        ],
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.fingerprint,
+                                color: Colors.white), // Ikon sidik jari
+                            SizedBox(height: 5), // Jarak antara ikon dan teks
+                            Text(
+                              'Presensi Keluar',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                // fontWeight: FontWeight.w500,
+                                fontFamily: 'Roboto',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -151,8 +199,9 @@ class MainMenuView extends GetView<MainMenuController> {
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Color.fromARGB(255, 66, 63, 254)),
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Color.fromARGB(255, 0, 175, 157),
+                        ),
                         child: Text(
                           'text $i',
                           style: TextStyle(fontSize: 16.0),
@@ -161,49 +210,16 @@ class MainMenuView extends GetView<MainMenuController> {
                 );
               }).toList(),
             ),
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Konfirmasi Logout"),
-                      content: Text("Apakah Anda yakin ingin keluar?"),
-                      actions: <Widget>[
-                        ElevatedButton(
-                          child: Text("Ya"),
-                          onPressed: () {
-                            // Tindakan yang diambil jika pengguna menekan tombol "Ya"
-                            SpUtil.clear();
-                            Get.offAllNamed(Routes.HOME);
-                          },
-                        ),
-                        ElevatedButton(
-                          child: Text("Tidak"),
-                          onPressed: () {
-                            // Tindakan yang diambil jika pengguna menekan tombol "Tidak"
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: Text(
-                "Logout",
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-              ),
-            ),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color.fromARGB(255, 0, 219, 197),
         items: [
           BottomNavigationBarItem(
+            // backgroundColor: Colors.teal,
             icon: IconButton(
-              icon: Icon(Icons.add_chart_rounded),
+              icon: Icon(Icons.add_chart),
               onPressed: () {
                 SpUtil.clear();
                 Get.offAllNamed(Routes.LAPORAN_PRESENSI);

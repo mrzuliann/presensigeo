@@ -11,12 +11,13 @@ class LaporanPresensiView extends GetView<LaporanPresensiController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('LaporanPresensiView'),
+        title: const Text('Laporan Presensi'),
+        backgroundColor: Colors.teal,
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Get.offAllNamed(Routes.PENGUMUMAN);
+            Get.offAllNamed(Routes.MAIN_MENU); // Kembali ke halaman sebelumnya
           },
         ),
       ),

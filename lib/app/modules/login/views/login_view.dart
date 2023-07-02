@@ -10,7 +10,7 @@ class LoginView extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 33, 39, 213),
+          backgroundColor: Colors.teal,
           elevation: 0,
           foregroundColor: Colors.black,
           shape: RoundedRectangleBorder(
@@ -93,7 +93,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 49, 21, 209),
+                    backgroundColor: Colors.teal,
                     fixedSize: Size(Get.width, 30)),
               ),
               SizedBox(
@@ -125,13 +125,8 @@ class LoginView extends GetView<LoginController> {
               Center(
                 child: Column(
                   children: [
-                    Text(
-                      " Login di Sosial Media ",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w900),
-                    ),
                     SizedBox(
-                      height: 20,
+                      height: 0.2,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -144,18 +139,26 @@ class LoginView extends GetView<LoginController> {
                           width: 20,
                         ),
                         Image.asset(
-                          "images/balangan.png",
-                          width: 80,
+                          "images/download.png",
+                          width: 60,
                         ),
                         SizedBox(
                           width: 20,
                         ),
-                        Image.asset(
-                          "images/balangan.png",
-                          width: 80,
-                        ),
+                        // Image.asset(
+                        //   "images/balangan.png",
+                        //   width: 80,
+                        // ),
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Text(
+                      " Version 1.0.0 ",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w900),
+                    ),
                   ],
                 ),
               ),

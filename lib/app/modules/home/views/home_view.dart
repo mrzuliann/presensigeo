@@ -26,16 +26,17 @@ class HomeView extends GetView<HomeController> {
           child: Image.asset("images/balangan.png"),
         ),
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 70, 65, 213),
+        backgroundColor: Color.fromARGB(255, 0, 173, 156),
         title: Text(
           'HomeView',
           style: TextStyle(
             color: Colors.black,
           ),
         ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -72,23 +73,22 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 49, 21, 209),
-                  fixedSize: Size(Get.width - 70, 40)),
+                  backgroundColor: Colors.teal, fixedSize: Size(Get.width, 30)),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text(
-                "R E G I S T E R",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  fixedSize: Size(Get.width - 70, 40)),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {},
+            //   child: Text(
+            //     "R E G I S T E R",
+            //     style: TextStyle(
+            //       color: Colors.black,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            //   style: ElevatedButton.styleFrom(
+            //       backgroundColor: Colors.white,
+            //       fixedSize: Size(Get.width - 100, 40)),
+            // ),
           ],
         ),
       ),
