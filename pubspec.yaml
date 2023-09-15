@@ -22,7 +22,7 @@ dependencies:
   geolocator: ^9.0.2
   json_annotation: ^4.8.1
   safe_device: ^1.1.4
-  table_calendar: ^3.0.0
+  table_calendar: ^3.0.0 
   
 
 
@@ -43,5 +43,5 @@ flutter:
     - images/download.png
     - images/disdik.png
     - images/user.png
-    - images/ic_marker_edu.png
+    - images/ic_marker_edu.png 
     

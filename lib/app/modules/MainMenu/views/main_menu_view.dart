@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:presensimob/app/data/holidays_provider.dart';
 
 import '../controllers/main_menu_controller.dart';
 
 class MainMenuView extends GetView<MainMenuController> {
   const MainMenuView({Key? key}) : super(key: key);
-
-  // nambah menu nav bar
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,6 @@ class MainMenuView extends GetView<MainMenuController> {
             Text(
               "Hallo Selamat Datang 👋👋👋,",
               style: TextStyle(
-                // fontWeight: FontWeight.bold,
                 fontSize: 20,
                 fontFamily: 'Roboto',
               ),
@@ -50,7 +47,6 @@ class MainMenuView extends GetView<MainMenuController> {
               "Di Presensi Mobile, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")} \nSekolah :  ${SpUtil.getString("school_name")}",
               style: TextStyle(
                 color: Colors.black,
-                // fontWeight: FontWeight.w600,
                 fontFamily: 'Roboto',
               ),
             ),
@@ -91,9 +87,7 @@ class MainMenuView extends GetView<MainMenuController> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.fingerprint,
-                                color: Colors.white), // Ikon sidik jari
-                            SizedBox(height: 5), // Jarak antara ikon dan teks
+                            SizedBox(height: 5),
                             Text(
                               'Presensi Masuk',
                               style: TextStyle(
@@ -137,15 +131,12 @@ class MainMenuView extends GetView<MainMenuController> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.fingerprint,
-                                color: Colors.white), // Ikon sidik jari
-                            SizedBox(height: 5), // Jarak antara ikon dan teks
+                            SizedBox(height: 5),
                             Text(
                               'Presensi Keluar',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
-                                // fontWeight: FontWeight.w500,
                                 fontFamily: 'Roboto',
                               ),
                             ),
@@ -162,12 +153,6 @@ class MainMenuView extends GetView<MainMenuController> {
             ),
             Row(
               children: [
-                // Expanded(
-                //   child: Divider(
-                //     height: 2,
-                //     color: Colors.black,
-                //   ),
-                // ),
                 Text(
                   " Berita ",
                   style: TextStyle(
@@ -217,7 +202,6 @@ class MainMenuView extends GetView<MainMenuController> {
         backgroundColor: Color.fromARGB(255, 0, 219, 197),
         items: [
           BottomNavigationBarItem(
-            // backgroundColor: Colors.teal,
             icon: IconButton(
               icon: Icon(Icons.add_chart),
               onPressed: () {
@@ -230,7 +214,6 @@ class MainMenuView extends GetView<MainMenuController> {
           BottomNavigationBarItem(
             icon: InkWell(
               onTap: () {
-                // Aksi ketika tombol ditekan
                 launch('https://t.me/presensiguru');
               },
               child: Icon(Icons.forum_rounded),

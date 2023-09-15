@@ -9,10 +9,9 @@ class PresensiProvider extends GetConnect {
       {required PresensiRequest data}) async {
     try {
       var token = SpUtil.getString('token', defValue: '');
-      
+
       var response = await post(
-          "https://presensibackend.balangankab.go.id/api/masuk-presensi",
-          data.toMap(),
+          "http://36.64.224.194:8999/api/masuk-presensi", data.toMap(),
           headers: {
             "Authorization": "Bearer $token",
           });

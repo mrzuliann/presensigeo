@@ -11,6 +11,7 @@ abstract class Routes {
   static const ABOUT = _Paths.ABOUT;
   static const PENGUMUMAN = _Paths.PENGUMUMAN;
   static const LAPORAN_PRESENSI = _Paths.LAPORAN_PRESENSI;
+  static const HOLIDAYS = _Paths.HOLIDAYS;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const ABOUT = '/about';
   static const PENGUMUMAN = '/pengumuman';
   static const LAPORAN_PRESENSI = '/laporan-presensi';
+  static const HOLIDAYS = '/holidays';
 }

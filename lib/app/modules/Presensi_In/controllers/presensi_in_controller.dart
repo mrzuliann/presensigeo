@@ -47,6 +47,7 @@ class PresensiInController extends GetxController {
   void onInit() {
     super.onInit();
     setupPermissionandLocation();
+    setCircles();
     setSourceIcons();
     latitudeDestination.value =
         double.parse('${SpUtil.getString('school_latitude', defValue: '0')}');
@@ -87,7 +88,7 @@ class PresensiInController extends GetxController {
         circleId: CircleId('1'),
         center: LatLng(latitudeDestination.value, longitudeDestination.value),
         radius: radius.value,
-        fillColor: Colors.transparent,
+        fillColor: const Color.fromARGB(0, 20, 20, 20),
         strokeColor: Color.fromARGB(255, 255, 34, 34),
         strokeWidth: 3,
       ),

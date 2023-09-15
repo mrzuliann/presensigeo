@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/About/bindings/about_binding.dart';
 import '../modules/About/views/about_view.dart';
+import '../modules/Holidays/bindings/holidays_binding.dart';
+import '../modules/Holidays/views/holidays_view.dart';
 import '../modules/LaporanPresensi/bindings/laporan_presensi_binding.dart';
 import '../modules/LaporanPresensi/views/laporan_presensi_view.dart';
 import '../modules/MainMenu/bindings/main_menu_binding.dart';
@@ -72,6 +74,11 @@ class AppPages {
       name: _Paths.LAPORAN_PRESENSI,
       page: () => const LaporanPresensiView(),
       binding: LaporanPresensiBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOLIDAYS,
+      page: () => const HolidaysView(),
+      binding: HolidaysBinding(),
     ),
   ];
 }

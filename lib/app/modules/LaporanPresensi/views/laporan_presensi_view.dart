@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
-import 'package:presensimob/app/routes/app_pages.dart';
-
-import '../controllers/laporan_presensi_controller.dart';
-
-class LaporanPresensiView extends GetView<LaporanPresensiController> {
+class LaporanPresensiView extends StatelessWidget {
   const LaporanPresensiView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,16 +13,48 @@ class LaporanPresensiView extends GetView<LaporanPresensiController> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Get.offAllNamed(Routes.MAIN_MENU); // Kembali ke halaman sebelumnya
+            Navigator.pop(context); // Kembali ke halaman sebelumnya
           },
         ),
       ),
-      body: const Center(
-        child: Text(
-          'LaporanPresensiView is working',
-          style: TextStyle(fontSize: 20),
-        ),
+      body: Center(
+        child: TealButtonGrid(),
       ),
+    );
+  }
+}
+
+class TealButtonGrid extends StatelessWidget {
+  const TealButtonGrid({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        childAspectRatio: 1, // Set the aspect ratio to make squares
+      ),
+      itemCount: 9,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () {
+              // Add your button's onPressed logic here
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.teal,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+            child: Text(
+              'Button ${index + 1}',
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+        );
+      },
     );
   }
 }
