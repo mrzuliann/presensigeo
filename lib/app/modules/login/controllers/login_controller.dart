@@ -46,9 +46,9 @@ class LoginController extends GetxController {
           SpUtil.putString('email', data['email']);
           SpUtil.putString('id', data['id'].toString());
           SpUtil.putString('school_name', data['school']['name']);
-          SpUtil.putString('school_latitude', data['school']['latitude']);
-          SpUtil.putString('school_longitude', data['school']['longitude']);
-          SpUtil.putDouble('radius', double.parse(data['school']['radius']));
+          // SpUtil.putString('school_latitude', data['school']['latitude']);
+          // SpUtil.putString('school_longitude', data['school']['longitude']);
+          // SpUtil.putDouble('radius', double.parse(data['school']['radius']));
           SpUtil.putBool('isLogin', true);
           //menuju routes: main menu
           Get.offAllNamed(Routes.MAIN_MENU);
