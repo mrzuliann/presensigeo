@@ -14,6 +14,9 @@ class MainMenuView extends GetView<MainMenuController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.getInfoLogin();
+    controller.getPresensi();
+
     Widget cardAbsen(
         {required Function()? onTap,
         required String name,
@@ -135,7 +138,7 @@ class MainMenuView extends GetView<MainMenuController> {
                 height: 10,
               ),
               Text(
-                "Di Presensi Mobile, anda login sebagai: \nNama : ${data.name}\nEmail  : ${data.email} \nNIP      : ${data.nip} \nSekolah :  ${data.school?.name}",
+                "Di Presensi Mobile, anda login sebagai: \nNama : ${data.name ?? ''}\nEmail  : ${data.email ?? ''} \nNIP      : ${data.nip ?? ''} \nSekolah :  ${data.school?.name ?? ''}",
                 style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Roboto',
