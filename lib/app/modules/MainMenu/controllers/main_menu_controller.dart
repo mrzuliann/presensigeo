@@ -26,7 +26,7 @@ class MainMenuController extends GetxController {
   RxBool isAbsen = false.obs;
   RxBool isLoading = false.obs;
 
-  RxString timeMasuk = ''.obs;
+  RxString timeMasuk = '00:00'.obs;
   RxString statusMasuk = ''.obs;
 
   Rx<Data> loginData = Data().obs;
@@ -65,7 +65,7 @@ class MainMenuController extends GetxController {
             [];
 
         var dataMasuk = presensi.where((e) => e.phId == 1).toList();
-        var objMasuk = dataMasuk[0];
+        var objMasuk = dataMasuk.isNotEmpty ? dataMasuk[0] : DataPresensi();
         timeMasuk.value = objMasuk.masuk ?? '';
         statusMasuk.value = objMasuk.psId == 1
             ? 'HADIR'

@@ -155,30 +155,40 @@ class MainMenuView extends GetView<MainMenuController> {
                       timeWork:
                           "${data.presensihourday?[0].phTimeStart ?? ''}-${data.presensihourday?[0].phTimeEnd ?? ''}",
                       status: controller.statusMasuk.value,
-                      time: controller.timeMasuk.value,
-                      action: isComeInQuickly(
-                        checkTime: DateTime(
-                          controller.now.year,
-                          controller.now.month,
-                          controller.now.day,
-                          parseTimeString(controller.timeMasuk.value).hour,
-                          parseTimeString(controller.timeMasuk.value).minute,
-                        ),
-                        startHour: parseTimeString(
-                                data.presensihourday?[0].phTimeStart ?? '00:00')
-                            .hour,
-                        startMinute: parseTimeString(
-                                data.presensihourday?[0].phTimeStart ?? '00:00')
-                            .minute,
-                        endHour: parseTimeString(
-                                data.presensihourday?[0].phTimeEnd ?? '00:00')
-                            .hour,
-                        endMinute: parseTimeString(
-                                data.presensihourday?[0].phTimeEnd ?? '00:00')
-                            .minute,
-                      )
-                          ? '(MASUK CEPAT)'
-                          : '(TERLAMBAT)',
+                      time: controller.timeMasuk.value != ""
+                          ? controller.timeMasuk.value
+                          : "00:00",
+                      action: controller.timeMasuk.value != ""
+                          ? isComeInQuickly(
+                              checkTime: DateTime(
+                                controller.now.year,
+                                controller.now.month,
+                                controller.now.day,
+                                parseTimeString(controller.timeMasuk.value)
+                                    .hour,
+                                parseTimeString(controller.timeMasuk.value)
+                                    .minute,
+                              ),
+                              startHour: parseTimeString(
+                                      data.presensihourday?[0].phTimeStart ??
+                                          '00:00')
+                                  .hour,
+                              startMinute: parseTimeString(
+                                      data.presensihourday?[0].phTimeStart ??
+                                          '00:00')
+                                  .minute,
+                              endHour: parseTimeString(
+                                      data.presensihourday?[0].phTimeEnd ??
+                                          '00:00')
+                                  .hour,
+                              endMinute: parseTimeString(
+                                      data.presensihourday?[0].phTimeEnd ??
+                                          '00:00')
+                                  .minute,
+                            )
+                              ? '(MASUK CEPAT)'
+                              : '(TERLAMBAT)'
+                          : 'BELUM MASUK',
                     ),
                     SizedBox(
                       width: 10,
