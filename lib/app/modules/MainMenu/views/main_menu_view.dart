@@ -116,7 +116,7 @@ class MainMenuView extends GetView<MainMenuController> {
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Obx(() {
         final data = controller.loginData.value;
-        
+
         if (controller.isLoading.value) {
           return Center(
             child: CircularProgressIndicator(),
@@ -139,7 +139,7 @@ class MainMenuView extends GetView<MainMenuController> {
                 height: 10,
               ),
               Text(
-                "Di Presensi Mobile, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")}",
+                "Di Presensi Mobile, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")}, \nSekolah :  ${SpUtil.getString("school_name")}",
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
               ),
@@ -264,7 +264,6 @@ class MainMenuView extends GetView<MainMenuController> {
             icon: IconButton(
               icon: Icon(Icons.add_chart),
               onPressed: () {
-                SpUtil.clear();
                 Get.offAllNamed(Routes.LAPORAN_PRESENSI);
               },
             ),
@@ -283,7 +282,6 @@ class MainMenuView extends GetView<MainMenuController> {
             icon: IconButton(
               icon: Icon(Icons.security_rounded),
               onPressed: () {
-                SpUtil.clear();
                 Get.offAllNamed(Routes.PENGUMUMAN);
               },
             ),

@@ -84,6 +84,8 @@ class LoginController extends GetxController {
           SpUtil.putString('token', response?.data?.token ?? '');
           SpUtil.putString('email', response?.data?.email ?? '');
           SpUtil.putString('password', password);
+
+          SpUtil.putString('school_name', response?.data?.school?.name ?? '');
           SpUtil.putString('school_latitude',
               '${response?.data?.school?.latitude ?? '0.0'}');
           SpUtil.putString('school_longitude',
