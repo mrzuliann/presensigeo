@@ -123,7 +123,7 @@ class MainMenuController extends GetxController {
     bool isMockLocation = await SafeDevice.canMockLocation;
     bool isDevelopmentModeEnable = await SafeDevice.isDevelopmentModeEnable;
 
-    if (isRooted || isDevelopmentModeEnable || isMockLocation) {
+    if (isRooted) {
       Get.dialog(
         AlertDialog(
           title: Text('Peringatan'),
@@ -145,8 +145,7 @@ class MainMenuController extends GetxController {
     } else {
       // Lakukan tindakan jika perangkat aman
       // Contoh: Melanjutkan ke halaman berikutnya
-      // Get.toNamed(Routes.PRESENSI_IN);
-      getInfoLogin();
+      // Get.offAllNamed(Routes.LOGIN);
     }
   }
 }

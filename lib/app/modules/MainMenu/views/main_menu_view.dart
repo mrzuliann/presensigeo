@@ -14,7 +14,7 @@ class MainMenuView extends GetView<MainMenuController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.getInfoLogin();
+    // controller.getInfoLogin();
     controller.getPresensi();
 
     Widget cardAbsen(
@@ -116,6 +116,7 @@ class MainMenuView extends GetView<MainMenuController> {
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Obx(() {
         final data = controller.loginData.value;
+        
         if (controller.isLoading.value) {
           return Center(
             child: CircularProgressIndicator(),
@@ -138,11 +139,9 @@ class MainMenuView extends GetView<MainMenuController> {
                 height: 10,
               ),
               Text(
-                "Di Presensi Mobile, anda login sebagai: \nNama : ${data.name ?? ''}\nEmail  : ${data.email ?? ''} \nNIP      : ${data.nip ?? ''} \nSekolah :  ${data.school?.name ?? ''}",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Roboto',
-                ),
+                "Di Presensi Mobile, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")}",
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 20),
               SizedBox(
