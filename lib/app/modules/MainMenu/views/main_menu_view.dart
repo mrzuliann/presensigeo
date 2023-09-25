@@ -14,7 +14,7 @@ class MainMenuView extends GetView<MainMenuController> {
 
   @override
   Widget build(BuildContext context) {
-    // controller.getInfoLogin();
+    controller.getInfoLogin();
     controller.getPresensi();
 
     Widget cardAbsen(
