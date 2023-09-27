@@ -139,7 +139,7 @@ class LoginView extends GetView<LoginController> {
                           width: 20,
                         ),
                         Image.asset(
-                          "images/download.png",
+                          "images/disdik.png",
                           width: 60,
                         ),
                         SizedBox(

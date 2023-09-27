@@ -4,7 +4,6 @@ import 'package:presensimob/app/routes/app_pages.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:presensimob/app/data/holidays_provider.dart';
 
 import '../controllers/main_menu_controller.dart';
@@ -14,6 +13,8 @@ class MainMenuView extends GetView<MainMenuController> {
 
   @override
   Widget build(BuildContext context) {
+    // Mendapatkan tanggal saat ini
+    final now = DateTime.now();
     controller.getInfoLogin();
     controller.getPresensi();
 
@@ -188,7 +189,7 @@ class MainMenuView extends GetView<MainMenuController> {
                                           '00:00')
                                   .minute,
                             )
-                              ? '(MASUK CEPAT)'
+                              ? '(TIDAK HADIR)'
                               : '(TERLAMBAT)'
                           : 'BELUM MASUK',
                     ),
@@ -200,8 +201,41 @@ class MainMenuView extends GetView<MainMenuController> {
                       name: 'Presensi Keluar',
                       timeWork:
                           "${data.presensihourday?[1].phTimeStart ?? ''}-${data.presensihourday?[1].phTimeEnd ?? ''}",
-                      status: 'TIDAK HADIR',
-                      time: '00:00',
+                      status: controller.statusKeluar.value,
+                      time: controller.timeKeluar.value != ""
+                          ? controller.timeKeluar.value
+                          : "00:00",
+                      action: controller.timeKeluar.value != ""
+                          ? isComeInQuickly(
+                              checkTime: DateTime(
+                                controller.now.year,
+                                controller.now.month,
+                                controller.now.day,
+                                parseTimeString(controller.timeKeluar.value)
+                                    .hour,
+                                parseTimeString(controller.timeKeluar.value)
+                                    .minute,
+                              ),
+                              startHour: parseTimeString(
+                                      data.presensihourday?[0].phTimeStart ??
+                                          '00:00')
+                                  .hour,
+                              startMinute: parseTimeString(
+                                      data.presensihourday?[0].phTimeStart ??
+                                          '00:00')
+                                  .minute,
+                              endHour: parseTimeString(
+                                      data.presensihourday?[0].phTimeEnd ??
+                                          '00:00')
+                                  .hour,
+                              endMinute: parseTimeString(
+                                      data.presensihourday?[0].phTimeEnd ??
+                                          '00:00')
+                                  .minute,
+                            )
+                              ? '(TIDAK HADIR)'
+                              : '(TERLAMBAT)'
+                          : 'BELUM MASUK',
                     )
                   ],
                 ),

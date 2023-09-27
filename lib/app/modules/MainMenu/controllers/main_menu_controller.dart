@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:presensimob/app/data/home_provider.dart';
 import 'package:presensimob/app/models/get_presensi_response.dart';
-import 'package:safe_device/safe_device.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
 
@@ -29,12 +28,14 @@ class MainMenuController extends GetxController {
   RxString timeMasuk = '00:00'.obs;
   RxString statusMasuk = ''.obs;
 
+  RxString timeKeluar = '00:00'.obs;
+  RxString statusKeluar = ''.obs;
+
   Rx<Data> loginData = Data().obs;
 
   @override
   void onInit() {
     super.onInit();
-    checkDeviceSafety();
   }
 
   Future<void> getInfoLogin() async {
@@ -114,38 +115,6 @@ class MainMenuController extends GetxController {
         backgroundColor: Color.fromARGB(255, 239, 120, 231),
         colorText: Colors.white,
       );
-    }
-  }
-
-  Future<void> checkDeviceSafety() async {
-    bool isJailbroken = await SafeDevice.isJailBroken;
-    bool isRooted = await SafeDevice.isSafeDevice;
-    bool isMockLocation = await SafeDevice.canMockLocation;
-    bool isDevelopmentModeEnable = await SafeDevice.isDevelopmentModeEnable;
-
-    if (isRooted) {
-      Get.dialog(
-        AlertDialog(
-          title: Text('Peringatan'),
-          content: Text(
-            'Perangkat Anda telah dijailbreak, di-root, atau menggunakan lokasi palsu. Aplikasi ini tidak dapat berjalan pada perangkat yang tidak aman.',
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                // Tindakan yang diambil jika pengguna menekan tombol "Ya"
-                SpUtil.clear();
-                Get.offAllNamed(Routes.HOME);
-              },
-              child: Text('OK'),
-            ),
-          ],
-        ),
-      );
-    } else {
-      // Lakukan tindakan jika perangkat aman
-      // Contoh: Melanjutkan ke halaman berikutnya
-      // Get.offAllNamed(Routes.LOGIN);
     }
   }
 }

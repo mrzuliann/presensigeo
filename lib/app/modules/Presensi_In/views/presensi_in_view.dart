@@ -35,6 +35,8 @@ class PresensiInView extends GetView<PresensiInController> {
                         markers: Set<Marker>.of(controller.markers),
                         myLocationEnabled: true,
                         myLocationButtonEnabled: false,
+                        zoomGesturesEnabled: true,
+                        tiltGesturesEnabled: false,
                         // polylines: polylines,
                         initialCameraPosition: value,
                         circles: Set<Circle>.of(controller.circles),

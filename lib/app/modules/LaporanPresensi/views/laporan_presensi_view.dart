@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:presensimob/app/routes/app_pages.dart';
 
 class LaporanPresensiView extends StatelessWidget {
   const LaporanPresensiView({Key? key}) : super(key: key);
@@ -13,7 +15,7 @@ class LaporanPresensiView extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Kembali ke halaman sebelumnya
+            Get.offAllNamed(Routes.MAIN_MENU);
           },
         ),
       ),
