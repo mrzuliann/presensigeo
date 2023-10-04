@@ -4,6 +4,12 @@ part 'presensi_response.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class PresensiResponse {
+  @JsonKey(name: 'success')
+  bool? success;
+
+  @JsonKey(name: 'message')
+  String? message;
+
   @JsonKey(name: 'id')
   int? id;
 
@@ -32,6 +38,8 @@ class PresensiResponse {
   String? psId;
 
   PresensiResponse({
+    this.success,
+    this.message,
     this.id,
     this.userId,
     this.latitude,

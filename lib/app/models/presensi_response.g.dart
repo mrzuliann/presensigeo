@@ -8,6 +8,8 @@ part of 'presensi_response.dart';
 
 PresensiResponse _$PresensiResponseFromJson(Map<String, dynamic> json) =>
     PresensiResponse(
+      success: json['success'] as bool?,
+      message: json['message'] as String?,
       id: json['id'] as int?,
       userId: json['user_id'] as String?,
       latitude: json['latitude'] as String?,

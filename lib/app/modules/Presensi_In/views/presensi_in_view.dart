@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:presensimob/app/components/custom_dropdown_mandatory.dart';
+import 'package:presensimob/app/components/custom_input_text.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
 
 import '../controllers/presensi_in_controller.dart';
@@ -81,6 +82,30 @@ class PresensiInView extends GetView<PresensiInController> {
                                       newValue;
                                 },
                               ),
+                              Obx(() {
+                                return Visibility(
+                                  visible:
+                                      controller.dropdownStatusValue.value !=
+                                                  '1' &&
+                                              controller.dropdownStatusValue
+                                                      .value !=
+                                                  '2' &&
+                                              controller.dropdownStatusValue
+                                                      .value !=
+                                                  ''
+                                          ? true
+                                          : false,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: CustomInputText(
+                                      title: 'Keterangan',
+                                      controller:
+                                          controller.keteranganController,
+                                      isValidator: false,
+                                    ),
+                                  ),
+                                );
+                              }),
                               const SizedBox(
                                 height: 20,
                               ),

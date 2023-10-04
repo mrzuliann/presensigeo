@@ -62,7 +62,7 @@ class MainMenuController extends GetxController {
       if (response?.success == true) {
         presensi.value = response?.data
                 ?.where((element) => element.isHariIni == true)
-                .toList`() ??
+                .toList() ??
             [];
 
         var dataMasuk = presensi.where((e) => e.phId == 1).toList();
