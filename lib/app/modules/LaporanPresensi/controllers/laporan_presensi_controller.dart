@@ -1,11 +1,15 @@
 import 'package:get/get.dart';
+import 'package:presensimob/app/data/laporan_provider.dart';
+import 'package:presensimob/app/models/laporan_response.dart';
 
 class LaporanPresensiController extends GetxController {
-  //TODO: Implement LaporanPresensiController
+  RxList<DataLaporan> laporans = (List<DataLaporan>.of([])).obs;
+  RxBool isLoading = false.obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
+    getLaporan();
+
     super.onInit();
   }
 
@@ -19,5 +23,16 @@ class LaporanPresensiController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  Future<void> getLaporan() async {
+    try {
+      isLoading(true);
+      var response = await LaporanProvider().getLaporanPreensi();
+
+      if (response?.success == true) {
+        laporans.value = response?.data ?? [];
+      }
+    } finally {
+      isLoading(false);
+    }
+  }
 }
