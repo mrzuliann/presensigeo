@@ -111,186 +111,194 @@ class MainMenuView extends GetView<MainMenuController> {
             bottom: Radius.circular(30),
           ),
         ),
-        title: const Text('MainMenuView'),
+        title: const Text('I.H.S.A.N'),
         centerTitle: true,
       ),
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      body: Obx(() {
-        final data = controller.loginData.value;
+      body: RefreshIndicator(
+        onRefresh: () async {
+          // Implement the logic to refresh your data here
+          // You can call controller methods or fetch new data
+          await Future.delayed(
+              Duration(seconds: 2)); // Simulate a delay for demonstration
+        },
+        child: Obx(() {
+          final data = controller.loginData.value;
 
-        if (controller.isLoading.value) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+          if (controller.isLoading.value) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-        return SingleChildScrollView(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Hallo Selamat Datang 👋👋👋,",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Roboto',
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Selamat Datang 👋👋👋,",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Roboto',
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Di Presensi Mobile, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")}, \nSekolah :  ${SpUtil.getString("school_name")}",
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                height: 10,
-              ),
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Di Instruksi Harian Siap Ngajar, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")}, \nLokasi :  ${SpUtil.getString("school_name")}",
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      cardAbsen(
+                        onTap: () => controller.goingToPresensiIn(),
+                        name: 'Presensi Masuk',
+                        timeWork:
+                            "${data.presensihourday?[0].phTimeStart ?? ''}-${data.presensihourday?[0].phTimeEnd ?? ''}",
+                        status: controller.statusMasuk.value,
+                        time: controller.timeMasuk.value != ""
+                            ? controller.timeMasuk.value
+                            : "00:00",
+                        action: controller.timeMasuk.value != ""
+                            ? isComeInQuickly(
+                                checkTime: DateTime(
+                                  controller.now.year,
+                                  controller.now.month,
+                                  controller.now.day,
+                                  parseTimeString(controller.timeMasuk.value)
+                                      .hour,
+                                  parseTimeString(controller.timeMasuk.value)
+                                      .minute,
+                                ),
+                                startHour: parseTimeString(
+                                        data.presensihourday?[0].phTimeStart ??
+                                            '00:00')
+                                    .hour,
+                                startMinute: parseTimeString(
+                                        data.presensihourday?[0].phTimeStart ??
+                                            '00:00')
+                                    .minute,
+                                endHour: parseTimeString(
+                                        data.presensihourday?[0].phTimeEnd ??
+                                            '00:00')
+                                    .hour,
+                                endMinute: parseTimeString(
+                                        data.presensihourday?[0].phTimeEnd ??
+                                            '00:00')
+                                    .minute,
+                              )
+                                ? '(TIDAK HADIR)'
+                                : '(TERLAMBAT)'
+                            : 'BELUM MASUK',
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      cardAbsen(
+                        onTap: () => controller.goingToPresensiOut(),
+                        name: 'Presensi Keluar',
+                        timeWork:
+                            "${data.presensihourday?[1].phTimeStart ?? ''}-${data.presensihourday?[1].phTimeEnd ?? ''}",
+                        status: controller.statusKeluar.value,
+                        time: controller.timeKeluar.value != ""
+                            ? controller.timeKeluar.value
+                            : "00:00",
+                        action: controller.timeKeluar.value != ""
+                            ? isComeInQuickly(
+                                checkTime: DateTime(
+                                  controller.now.year,
+                                  controller.now.month,
+                                  controller.now.day,
+                                  parseTimeString(controller.timeKeluar.value)
+                                      .hour,
+                                  parseTimeString(controller.timeKeluar.value)
+                                      .minute,
+                                ),
+                                startHour: parseTimeString(
+                                        data.presensihourday?[0].phTimeStart ??
+                                            '00:00')
+                                    .hour,
+                                startMinute: parseTimeString(
+                                        data.presensihourday?[0].phTimeStart ??
+                                            '00:00')
+                                    .minute,
+                                endHour: parseTimeString(
+                                        data.presensihourday?[0].phTimeEnd ??
+                                            '00:00')
+                                    .hour,
+                                endMinute: parseTimeString(
+                                        data.presensihourday?[0].phTimeEnd ??
+                                            '00:00')
+                                    .minute,
+                              )
+                                ? '(TIDAK HADIR)'
+                                : '(TERLAMBAT)'
+                            : 'BELUM MASUK',
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
                   children: [
-                    cardAbsen(
-                      onTap: () => controller.goingToPresensiIn(),
-                      name: 'Presensi Masuk',
-                      timeWork:
-                          "${data.presensihourday?[0].phTimeStart ?? ''}-${data.presensihourday?[0].phTimeEnd ?? ''}",
-                      status: controller.statusMasuk.value,
-                      time: controller.timeMasuk.value != ""
-                          ? controller.timeMasuk.value
-                          : "00:00",
-                      action: controller.timeMasuk.value != ""
-                          ? isComeInQuickly(
-                              checkTime: DateTime(
-                                controller.now.year,
-                                controller.now.month,
-                                controller.now.day,
-                                parseTimeString(controller.timeMasuk.value)
-                                    .hour,
-                                parseTimeString(controller.timeMasuk.value)
-                                    .minute,
-                              ),
-                              startHour: parseTimeString(
-                                      data.presensihourday?[0].phTimeStart ??
-                                          '00:00')
-                                  .hour,
-                              startMinute: parseTimeString(
-                                      data.presensihourday?[0].phTimeStart ??
-                                          '00:00')
-                                  .minute,
-                              endHour: parseTimeString(
-                                      data.presensihourday?[0].phTimeEnd ??
-                                          '00:00')
-                                  .hour,
-                              endMinute: parseTimeString(
-                                      data.presensihourday?[0].phTimeEnd ??
-                                          '00:00')
-                                  .minute,
-                            )
-                              ? '(TIDAK HADIR)'
-                              : '(TERLAMBAT)'
-                          : 'BELUM MASUK',
+                    Text(
+                      " Berita ",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    SizedBox(
-                      width: 10,
+                    Expanded(
+                      child: Divider(
+                        height: 2,
+                        color: Colors.black,
+                      ),
                     ),
-                    cardAbsen(
-                      onTap: () => controller.goingToPresensiOut(),
-                      name: 'Presensi Keluar',
-                      timeWork:
-                          "${data.presensihourday?[1].phTimeStart ?? ''}-${data.presensihourday?[1].phTimeEnd ?? ''}",
-                      status: controller.statusKeluar.value,
-                      time: controller.timeKeluar.value != ""
-                          ? controller.timeKeluar.value
-                          : "00:00",
-                      action: controller.timeKeluar.value != ""
-                          ? isComeInQuickly(
-                              checkTime: DateTime(
-                                controller.now.year,
-                                controller.now.month,
-                                controller.now.day,
-                                parseTimeString(controller.timeKeluar.value)
-                                    .hour,
-                                parseTimeString(controller.timeKeluar.value)
-                                    .minute,
-                              ),
-                              startHour: parseTimeString(
-                                      data.presensihourday?[0].phTimeStart ??
-                                          '00:00')
-                                  .hour,
-                              startMinute: parseTimeString(
-                                      data.presensihourday?[0].phTimeStart ??
-                                          '00:00')
-                                  .minute,
-                              endHour: parseTimeString(
-                                      data.presensihourday?[0].phTimeEnd ??
-                                          '00:00')
-                                  .hour,
-                              endMinute: parseTimeString(
-                                      data.presensihourday?[0].phTimeEnd ??
-                                          '00:00')
-                                  .minute,
-                            )
-                              ? '(TIDAK HADIR)'
-                              : '(TERLAMBAT)'
-                          : 'BELUM MASUK',
-                    )
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Text(
-                    " Berita ",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 180.0,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
+                SizedBox(
+                  height: 10,
                 ),
-                items: [1, 2, 3, 4, 5].map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Color.fromARGB(255, 0, 175, 157),
-                          ),
-                          child: Text(
-                            'text $i',
-                            style: TextStyle(fontSize: 16.0),
-                          ));
-                    },
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
-        );
-      }),
+                CarouselSlider(
+                  options: CarouselOptions(
+                    height: 180.0,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 3),
+                  ),
+                  items: [1, 2, 3, 4, 5].map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Color.fromARGB(255, 0, 175, 157),
+                            ),
+                            child: Text(
+                              'text $i',
+                              style: TextStyle(fontSize: 16.0),
+                            ));
+                      },
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color.fromARGB(255, 0, 219, 197),
         items: [

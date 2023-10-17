@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:presensimob/app/components/custom_dropdown_mandatory.dart';
+import 'package:presensimob/app/components/custom_input_text.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
 
 import '../controllers/presensi_out_controller.dart';
@@ -13,7 +14,7 @@ class PresensiOutView extends GetView<PresensiOutController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Presensi Masuk'),
+          title: const Text('Presensi Keluar'),
           backgroundColor: Colors.teal,
           centerTitle: true,
           leading: IconButton(
@@ -37,7 +38,6 @@ class PresensiOutView extends GetView<PresensiOutController> {
                         myLocationButtonEnabled: false,
                         zoomGesturesEnabled: true,
                         tiltGesturesEnabled: false,
-                        // polylines: polylines,
                         initialCameraPosition: value,
                         circles: Set<Circle>.of(controller.circles),
                         onMapCreated: (GoogleMapController ctrl) {
@@ -81,6 +81,30 @@ class PresensiOutView extends GetView<PresensiOutController> {
                                       newValue;
                                 },
                               ),
+                              Obx(() {
+                                return Visibility(
+                                  visible:
+                                      controller.dropdownStatusValue.value !=
+                                                  '1' &&
+                                              controller.dropdownStatusValue
+                                                      .value !=
+                                                  '2' &&
+                                              controller.dropdownStatusValue
+                                                      .value !=
+                                                  ''
+                                          ? true
+                                          : false,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: CustomInputText(
+                                      title: 'Keterangan',
+                                      controller:
+                                          controller.keteranganController,
+                                      isValidator: false,
+                                    ),
+                                  ),
+                                );
+                              }),
                               const SizedBox(
                                 height: 20,
                               ),
@@ -99,7 +123,7 @@ class PresensiOutView extends GetView<PresensiOutController> {
                                     ),
                                     onPressed: () => controller.submitForm(),
                                     child: Text(
-                                      "Check In",
+                                      "Check Out",
                                       style: TextStyle(
                                         color: Color(0xffffffff),
                                       ),

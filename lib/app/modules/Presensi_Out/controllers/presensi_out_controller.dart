@@ -16,6 +16,7 @@ import 'package:sp_util/sp_util.dart';
 
 class PresensiOutController extends GetxController {
   final Completer<GoogleMapController> mapsController = Completer();
+  final TextEditingController keteranganController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -130,11 +131,36 @@ class PresensiOutController extends GetxController {
       );
 
       bool canMockLocation = await SafeDevice.canMockLocation;
+      var request = PresensiRequest(
+        latitude: latitude.value.toString(),
+        longitude: longitude.toString(),
+        phId: "2",
+        psId: dropdownStatusValue.value,
+        pdDesc: keteranganController.text,
+      );
 
       debugPrint('ini distance $distance $canMockLocation');
 
       if (formKey.currentState?.validate() ?? false) {
-        if (distance <= radius.value) {
+        if (dropdownStatusValue.value != '1' &&
+            dropdownStatusValue.value != '2' &&
+            dropdownStatusValue.value != '') {
+          isLoadingRequest(true);
+
+          var response =
+              await PresensiProvider().sentPresensiLocation(data: request);
+
+          if (response?.success == false) {
+            Get.snackbar(
+              "Error",
+              response?.message ?? '',
+              backgroundColor: Colors.red,
+              colorText: Colors.white,
+            );
+          } else {
+            Get.back(result: true);
+          }
+        } else if (distance <= radius.value) {
           if (canMockLocation) {
             Get.snackbar(
               "Error",
@@ -144,24 +170,19 @@ class PresensiOutController extends GetxController {
             );
           } else {
             isLoadingRequest(true);
-            var request = PresensiRequest(
-                latitude: latitude.value.toString(),
-                longitude: longitude.toString(),
-                phId: "2",
-                psId: dropdownStatusValue.value);
 
             var response =
                 await PresensiProvider().sentPresensiLocation(data: request);
 
-            if (response != null) {
-              Get.back(result: true);
-            } else {
+            if (response?.success == false) {
               Get.snackbar(
                 "Error",
-                "Silahkan Coba Lagi",
+                response?.message ?? '',
                 backgroundColor: Colors.red,
                 colorText: Colors.white,
               );
+            } else {
+              Get.back(result: true);
             }
           }
         } else {

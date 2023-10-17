@@ -28,7 +28,7 @@ class HomeView extends GetView<HomeController> {
         elevation: 0,
         backgroundColor: Color.fromARGB(255, 0, 173, 156),
         title: Text(
-          'HomeView',
+          'I.H.S.A.N',
           style: TextStyle(
             color: Colors.black,
           ),
@@ -43,7 +43,7 @@ class HomeView extends GetView<HomeController> {
             SizedBox(height: 10),
             Image.asset("images/user.png"),
             Text(
-              "Presensi Mobile",
+              "I H S A N",
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
@@ -53,7 +53,7 @@ class HomeView extends GetView<HomeController> {
               height: 20,
             ),
             Text(
-              "Presensi Kehadiran \nBerbasis Mobile with Geolocation dan Praktis",
+              "Instruksi Harian Siap Ngajar \nBerbasis Mobile with Geolocation dan Praktis",
               style: TextStyle(
                 color: Colors.black,
                 fontFamily: 'Roboto',

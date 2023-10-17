@@ -85,6 +85,27 @@ class MainMenuController extends GetxController {
                                     : objMasuk.psId == 8
                                         ? 'IZIN PULANG CEPAT'
                                         : '';
+        var dataKeluar = presensi.where((e) => e.phId == 2).toList();
+        var objKeluar = dataKeluar.isNotEmpty ? dataKeluar[0] : DataPresensi();
+        timeKeluar.value = objKeluar.masuk ?? '';
+        statusKeluar.value = objKeluar.psId == 2
+            ? 'HADIR'
+            : objKeluar.psId == 2
+                ? 'TIDAK HADIR'
+                : objKeluar.psId == 3
+                    ? 'IZIN'
+                    : objKeluar.psId == 4
+                        ? 'SAKIT'
+                        : objKeluar.psId == 5
+                            ? 'CUTI'
+                            : objKeluar.psId == 6
+                                ? 'TUGAS'
+                                : objKeluar.psId == 7
+                                    ? 'IZIN TERLAMBAT'
+                                    : objKeluar.psId == 8
+                                        ? 'IZIN PULANG CEPAT'
+                                        : '';
+
         print('prensi length ${presensi.length}');
       }
     } finally {}
@@ -107,7 +128,11 @@ class MainMenuController extends GetxController {
   }
 
   goingToPresensiOut() async {
-    var result = await Get.toNamed(Routes.PRESENSI_OUT);
+    var result = await Get.toNamed(Routes.PRESENSI_OUT, arguments: {
+      'latitude': loginData.value.school?.latitude ?? '',
+      'longitude': loginData.value.school?.longitude ?? '',
+      'radius': loginData.value.school?.radius ?? '',
+    });
     if (result != null) {
       Get.snackbar(
         "Sukses",

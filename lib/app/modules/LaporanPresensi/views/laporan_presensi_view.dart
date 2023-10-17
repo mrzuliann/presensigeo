@@ -28,7 +28,8 @@ class LaporanPresensiView extends GetView<LaporanPresensiController> {
         } else if (controller.laporans.isNotEmpty) {
           return GridView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
               crossAxisCount: 3,
               height: 180, // Set the aspect ratio to make squares
               mainAxisSpacing: 8,
@@ -56,7 +57,7 @@ class LaporanPresensiView extends GetView<LaporanPresensiController> {
                     children: [
                       Center(
                         child: Text(
-                          'Tgl ${obj.bulan}/${obj.tahun}',
+                          'Bulan ${obj.bulan}/${obj.tahun}',
                           style: TextStyle(fontSize: 10),
                         ),
                       ),

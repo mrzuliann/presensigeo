@@ -45,7 +45,7 @@ class LoginView extends GetView<LoginController> {
                 height: 10,
               ),
               Text(
-                "Di presensi Disdik Mobile, Silahkan Login disini!",
+                "Di Instruksi Harian Siap Ngajar, Silahkan Login disini!",
                 style: TextStyle(color: Colors.black),
               ),
               SizedBox(
