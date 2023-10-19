@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:presensimob/app/data/home_provider.dart';
 import 'package:presensimob/app/models/get_presensi_response.dart';
 import 'package:sp_util/sp_util.dart';
@@ -25,6 +28,12 @@ class MainMenuController extends GetxController {
   RxBool isAbsen = false.obs;
   RxBool isLoading = false.obs;
 
+  RxString timeWorkPh1 = '00:00'.obs;
+  RxString timeWorkLastPh1 = '00:00'.obs;
+
+  RxString timeWorkPh2 = '00:00'.obs;
+  RxString timeWorkLastPh2 = '00:00'.obs;
+
   RxString timeMasuk = '00:00'.obs;
   RxString statusMasuk = ''.obs;
 
@@ -48,6 +57,111 @@ class MainMenuController extends GetxController {
 
       if (response?.success == true) {
         loginData.value = response?.data ?? Data();
+        timeWorkPh1.value = loginData.value.school != null &&
+                loginData.value.school!.presensihourday != null &&
+                loginData.value.school!.presensihourday!.isNotEmpty
+            ? loginData.value.school!.presensihourday!
+                    .where((element) =>
+                        element.phDay ==
+                        DateFormat('EEEE')
+                            .format(DateTime.now())
+                            .toString()
+                            .toLowerCase())
+                    .where((element) => element.phId == 1)
+                    .toList()
+                    .isNotEmpty
+                ? loginData.value.school!.presensihourday!
+                        .where((element) =>
+                            element.phDay ==
+                            DateFormat('EEEE')
+                                .format(DateTime.now())
+                                .toString()
+                                .toLowerCase())
+                        .where((element) => element.phId == 1)
+                        .toList()[0]
+                        .phTimeStart ??
+                    '00:00'
+                : '00:00'
+            : '00:00';
+        timeWorkLastPh1.value = loginData.value.school != null &&
+                loginData.value.school!.presensihourday != null &&
+                loginData.value.school!.presensihourday!.isNotEmpty
+            ? loginData.value.school!.presensihourday!
+                    .where((element) =>
+                        element.phDay ==
+                        DateFormat('EEEE')
+                            .format(DateTime.now())
+                            .toString()
+                            .toLowerCase())
+                    .where((element) => element.phId == 1)
+                    .toList()
+                    .isNotEmpty
+                ? loginData.value.school!.presensihourday!
+                        .where((element) =>
+                            element.phDay ==
+                            DateFormat('EEEE')
+                                .format(DateTime.now())
+                                .toString()
+                                .toLowerCase())
+                        .where((element) => element.phId == 1)
+                        .toList()[0]
+                        .phTimeEnd ??
+                    '00:00'
+                : '00:00'
+            : '00:00';
+
+        timeWorkPh2.value = loginData.value.school != null &&
+                loginData.value.school!.presensihourday != null &&
+                loginData.value.school!.presensihourday!.isNotEmpty
+            ? loginData.value.school!.presensihourday!
+                    .where((element) =>
+                        element.phDay ==
+                        DateFormat('EEEE')
+                            .format(DateTime.now())
+                            .toString()
+                            .toLowerCase())
+                    .where((element) => element.phId == 2)
+                    .toList()
+                    .isNotEmpty
+                ? loginData.value.school!.presensihourday!
+                        .where((element) =>
+                            element.phDay ==
+                            DateFormat('EEEE')
+                                .format(DateTime.now())
+                                .toString()
+                                .toLowerCase())
+                        .where((element) => element.phId == 2)
+                        .toList()[0]
+                        .phTimeStart ??
+                    '00:00'
+                : '00:00'
+            : '00:00';
+        timeWorkLastPh2.value = loginData.value.school != null &&
+                loginData.value.school!.presensihourday != null &&
+                loginData.value.school!.presensihourday!.isNotEmpty
+            ? loginData.value.school!.presensihourday!
+                    .where((element) =>
+                        element.phDay ==
+                        DateFormat('EEEE')
+                            .format(DateTime.now())
+                            .toString()
+                            .toLowerCase())
+                    .where((element) => element.phId == 2)
+                    .toList()
+                    .isNotEmpty
+                ? loginData.value.school!.presensihourday!
+                        .where((element) =>
+                            element.phDay ==
+                            DateFormat('EEEE')
+                                .format(DateTime.now())
+                                .toString()
+                                .toLowerCase())
+                        .where((element) => element.phId == 2)
+                        .toList()[0]
+                        .phTimeEnd ??
+                    '00:00'
+                : '00:00'
+            : '00:00';
         getPresensi();
       }
     } finally {

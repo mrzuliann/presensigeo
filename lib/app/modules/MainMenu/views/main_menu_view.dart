@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -16,7 +17,6 @@ class MainMenuView extends GetView<MainMenuController> {
     // Mendapatkan tanggal saat ini
     final now = DateTime.now();
     controller.getInfoLogin();
-    controller.getPresensi();
 
     Widget cardAbsen(
         {required Function()? onTap,
@@ -163,7 +163,7 @@ class MainMenuView extends GetView<MainMenuController> {
                         onTap: () => controller.goingToPresensiIn(),
                         name: 'Presensi Masuk',
                         timeWork:
-                            "${data.presensihourday?[0].phTimeStart ?? ''}-${data.presensihourday?[0].phTimeEnd ?? ''}",
+                            "${controller.timeWorkPh1.value}-${controller.timeWorkLastPh1.value}",
                         status: controller.statusMasuk.value,
                         time: controller.timeMasuk.value != ""
                             ? controller.timeMasuk.value
@@ -180,20 +180,16 @@ class MainMenuView extends GetView<MainMenuController> {
                                       .minute,
                                 ),
                                 startHour: parseTimeString(
-                                        data.presensihourday?[0].phTimeStart ??
-                                            '00:00')
+                                        controller.timeWorkPh1.value)
                                     .hour,
                                 startMinute: parseTimeString(
-                                        data.presensihourday?[0].phTimeStart ??
-                                            '00:00')
+                                        controller.timeWorkPh1.value)
                                     .minute,
                                 endHour: parseTimeString(
-                                        data.presensihourday?[0].phTimeEnd ??
-                                            '00:00')
+                                        controller.timeWorkLastPh1.value)
                                     .hour,
                                 endMinute: parseTimeString(
-                                        data.presensihourday?[0].phTimeEnd ??
-                                            '00:00')
+                                        controller.timeWorkLastPh1.value)
                                     .minute,
                               )
                                 ? '(TIDAK HADIR)'
@@ -207,7 +203,7 @@ class MainMenuView extends GetView<MainMenuController> {
                         onTap: () => controller.goingToPresensiOut(),
                         name: 'Presensi Keluar',
                         timeWork:
-                            "${data.presensihourday?[1].phTimeStart ?? ''}-${data.presensihourday?[1].phTimeEnd ?? ''}",
+                            "${controller.timeWorkPh2.value}-${controller.timeWorkLastPh2.value}",
                         status: controller.statusKeluar.value,
                         time: controller.timeKeluar.value != ""
                             ? controller.timeKeluar.value
@@ -224,20 +220,16 @@ class MainMenuView extends GetView<MainMenuController> {
                                       .minute,
                                 ),
                                 startHour: parseTimeString(
-                                        data.presensihourday?[0].phTimeStart ??
-                                            '00:00')
+                                        controller.timeWorkPh2.value)
                                     .hour,
                                 startMinute: parseTimeString(
-                                        data.presensihourday?[0].phTimeStart ??
-                                            '00:00')
+                                        controller.timeWorkPh2.value)
                                     .minute,
                                 endHour: parseTimeString(
-                                        data.presensihourday?[0].phTimeEnd ??
-                                            '00:00')
+                                        controller.timeWorkLastPh2.value)
                                     .hour,
                                 endMinute: parseTimeString(
-                                        data.presensihourday?[0].phTimeEnd ??
-                                            '00:00')
+                                        controller.timeWorkLastPh2.value)
                                     .minute,
                               )
                                 ? '(TIDAK HADIR)'
