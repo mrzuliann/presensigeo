@@ -14,7 +14,7 @@ class MainMenuController extends GetxController {
   bool canMockLocation = false;
   bool isRealDevice = true;
   bool isOnExternalStorage = false;
-  bool isSafeDevice = false;
+  // bool isSafeDevice = false;
   bool isDevelopmentModeEnable = false;
   RxList<DataPresensi> presensi = (List<DataPresensi>.of([])).obs;
 

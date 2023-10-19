@@ -253,7 +253,7 @@ class MainMenuView extends GetView<MainMenuController> {
                 Row(
                   children: [
                     Text(
-                      " Berita ",
+                      " Galery ",
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,

@@ -21,7 +21,7 @@ dependencies:
   google_maps_flutter: ^2.3.0 
   geolocator: ^9.0.2
   json_annotation: ^4.8.1 
-  safe_device: ^1.1.4
+  # safe_device: ^1.1.4
   table_calendar: ^3.0.0 
   
 

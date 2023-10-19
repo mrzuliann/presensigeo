@@ -11,7 +11,6 @@ import 'package:presensimob/app/models/presensi_request.dart';
 import 'package:presensimob/app/utils/get_bytes.dart';
 import 'package:presensimob/app/utils/get_location.dart';
 import 'package:presensimob/app/utils/hardcode_data.dart';
-import 'package:safe_device/safe_device.dart';
 import 'package:sp_util/sp_util.dart';
 
 class PresensiInController extends GetxController {
@@ -39,7 +38,7 @@ class PresensiInController extends GetxController {
 
   RxList<GeneralHardCodeDataValue> statusAbsensi =
       (List<GeneralHardCodeDataValue>.of(
-              ListGeneralHardCodeDataValue.fromMap(HardCodeData.statusAbsensi)  
+              ListGeneralHardCodeDataValue.fromMap(HardCodeData.statusAbsensi)
                   .data))
           .obs;
 
@@ -129,7 +128,6 @@ class PresensiInController extends GetxController {
         longitudeDestination.value,
       );
 
-      bool canMockLocation = await SafeDevice.canMockLocation;
       var request = PresensiRequest(
         latitude: latitude.value.toString(),
         longitude: longitude.toString(),
@@ -138,7 +136,7 @@ class PresensiInController extends GetxController {
         pdDesc: keteranganController.text,
       );
 
-      debugPrint('ini distance $distance $canMockLocation');
+      // debugPrint('ini distance $distance $canMockLocation');
 
       if (formKey.currentState?.validate() ?? false) {
         if (dropdownStatusValue.value != '1' &&
@@ -160,29 +158,20 @@ class PresensiInController extends GetxController {
             Get.back(result: true);
           }
         } else if (distance <= radius.value) {
-          if (canMockLocation) {
+          isLoadingRequest(true);
+
+          var response =
+              await PresensiProvider().sentPresensiLocation(data: request);
+
+          if (response?.success == false) {
             Get.snackbar(
               "Error",
-              "Anda tidak dapat melakukan absensi",
+              response?.message ?? '',
               backgroundColor: Colors.red,
               colorText: Colors.white,
             );
           } else {
-            isLoadingRequest(true);
-
-            var response =
-                await PresensiProvider().sentPresensiLocation(data: request);
-
-            if (response?.success == false) {
-              Get.snackbar(
-                "Error",
-                response?.message ?? '',
-                backgroundColor: Colors.red,
-                colorText: Colors.white,
-              );
-            } else {
-              Get.back(result: true);
-            }
+            Get.back(result: true);
           }
         } else {
           Get.snackbar(
