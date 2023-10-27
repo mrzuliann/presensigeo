@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -16,7 +17,6 @@ class MainMenuView extends GetView<MainMenuController> {
   Widget build(BuildContext context) {
     // Mendapatkan tanggal saat ini
     final now = DateTime.now();
-    controller.getInfoLogin();
 
     Widget cardAbsen(
         {required Function()? onTap,
@@ -123,7 +123,7 @@ class MainMenuView extends GetView<MainMenuController> {
               Duration(seconds: 2)); // Simulate a delay for demonstration
         },
         child: Obx(() {
-          final data = controller.loginData.value;
+          // final data = controller.loginData.value;
 
           if (controller.isLoading.value) {
             return Center(
@@ -131,10 +131,14 @@ class MainMenuView extends GetView<MainMenuController> {
             );
           }
 
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          return LiquidPullToRefresh(
+            key: controller.refreshIndicatorKey,
+            onRefresh: () async {
+              await controller.getInitData();
+            },
+            showChildOpacityTransition: false,
+            child: ListView(
+              padding: EdgeInsets.all(20),
               children: [
                 Text(
                   "Selamat Datang 👋👋👋,",
@@ -243,7 +247,7 @@ class MainMenuView extends GetView<MainMenuController> {
                   height: 10,
                 ),
                 Row(
-                  children: [
+                  children: const [
                     Text(
                       " Galery ",
                       style: TextStyle(
@@ -268,20 +272,24 @@ class MainMenuView extends GetView<MainMenuController> {
                     autoPlay: true,
                     autoPlayInterval: Duration(seconds: 3),
                   ),
-                  items: [1, 2, 3, 4, 5].map((i) {
+                  items: controller.gallery.map((i) {
                     return Builder(
                       builder: (BuildContext context) {
                         return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Color.fromARGB(255, 0, 175, 157),
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Color.fromARGB(255, 0, 175, 157),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              i.image ?? '',
+                              fit: BoxFit.cover,
                             ),
-                            child: Text(
-                              'text $i',
-                              style: TextStyle(fontSize: 16.0),
-                            ));
+                          ),
+                        );
                       },
                     );
                   }).toList(),

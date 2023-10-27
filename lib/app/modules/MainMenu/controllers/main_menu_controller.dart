@@ -1,9 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:presensimob/app/data/home_provider.dart';
+import 'package:presensimob/app/models/gallery_response.dart';
 import 'package:presensimob/app/models/get_presensi_response.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
@@ -20,6 +20,10 @@ class MainMenuController extends GetxController {
   // bool isSafeDevice = false;
   bool isDevelopmentModeEnable = false;
   RxList<DataPresensi> presensi = (List<DataPresensi>.of([])).obs;
+  RxList<DataGallery> gallery = (List<DataGallery>.of([])).obs;
+
+  final GlobalKey<LiquidPullToRefreshState> refreshIndicatorKey =
+      GlobalKey<LiquidPullToRefreshState>();
 
   var now = DateTime.now();
 
@@ -44,7 +48,14 @@ class MainMenuController extends GetxController {
 
   @override
   void onInit() {
+    getInitData();
+
     super.onInit();
+  }
+
+  Future<void> getInitData() async {
+    getInfoLogin();
+    getGallery();
   }
 
   Future<void> getInfoLogin() async {
@@ -221,6 +232,16 @@ class MainMenuController extends GetxController {
                                         : '';
 
         print('prensi length ${presensi.length}');
+      }
+    } finally {}
+  }
+
+  Future<void> getGallery() async {
+    try {
+      var response = await HomeProvider().getGallery();
+
+      if (response?.data?.isNotEmpty ?? false) {
+        gallery.value = response?.data ?? [];
       }
     } finally {}
   }
