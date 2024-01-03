@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:presensimob/app/models/laporan_response.dart';
+import 'package:presensimob/app/utils/urls.dart';
 import 'package:sp_util/sp_util.dart';
 
 class LaporanProvider extends GetConnect {
@@ -8,8 +9,7 @@ class LaporanProvider extends GetConnect {
     try {
       var token = SpUtil.getString('token', defValue: '');
 
-      var response =
-          await get("http://36.64.224.194:8999/api/laporan", headers: {
+      var response = await get("${BaseUrl.baseUrl}laporan", headers: {
         "Authorization": "Bearer $token",
       });
 

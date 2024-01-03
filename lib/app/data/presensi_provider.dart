@@ -3,6 +3,8 @@ import 'package:presensimob/app/models/presensi_request.dart';
 import 'package:presensimob/app/models/presensi_response.dart';
 import 'package:sp_util/sp_util.dart';
 
+import '../utils/urls.dart';
+
 class PresensiProvider extends GetConnect {
   // Post request
   Future<PresensiResponse?> sentPresensiLocation(
@@ -11,7 +13,7 @@ class PresensiProvider extends GetConnect {
       var token = SpUtil.getString('token', defValue: '');
 
       var response = await post(
-          "http://36.64.224.194:8999/api/masuk-presensi", data.toMap(),
+          "${BaseUrl.baseUrl}masuk-presensi", data.toMap(),
           headers: {
             "Authorization": "Bearer $token",
           });
