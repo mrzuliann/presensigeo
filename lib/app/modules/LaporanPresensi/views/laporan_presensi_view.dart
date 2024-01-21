@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:presensimob/app/components/card_laporan_item.dart';
 import 'package:presensimob/app/modules/LaporanPresensi/controllers/laporan_presensi_controller.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
-
-import '../../../components/sliver_grid_rasio_custom.dart';
 
 class LaporanPresensiView extends GetView<LaporanPresensiController> {
   const LaporanPresensiView({Key? key}) : super(key: key);
@@ -25,80 +25,100 @@ class LaporanPresensiView extends GetView<LaporanPresensiController> {
       body: Obx(() {
         if (controller.isLoading.value) {
           return Center(child: CircularProgressIndicator());
-        } else if (controller.laporans.isNotEmpty) {
-          return GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
-              crossAxisCount: 3,
-              height: 180, // Set the aspect ratio to make squares
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-            ),
-            itemCount: controller.laporans.length,
-            itemBuilder: (context, index) {
-              final obj = controller.laporans[index];
-
-              return ElevatedButton(
-                onPressed: () {
-                  // Add your button's onPressed logic here
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.teal,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Text(
-                          'Bulan ${obj.bulan}/${obj.tahun}',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'Hadir: ${obj.hadir}',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Text(
-                        'Izin: ${obj.izin}',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Text(
-                        'Sakit: ${obj.sakit}',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Text(
-                        'Cuti: ${obj.cuti}',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Text(
-                        'Tugas: ${obj.tugas}',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Text(
-                        'Izin Terlambat: ${obj.izinTerlambat}',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Text(
-                        'Izin Pulang Cepat: ${obj.izinPulangCepat}',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
         }
 
-        return Center(child: Text('Data empty'));
+        //  else if (controller.laporans.isNotEmpty) {
+        //   return GridView.builder(
+        //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        //     gridDelegate:
+        //         SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
+        //       crossAxisCount: 3,
+        //       height: 180, // Set the aspect ratio to make squares
+        //       mainAxisSpacing: 8,
+        //       crossAxisSpacing: 8,
+        //     ),
+        //     itemCount: 7,
+        //     itemBuilder: (context, index) {
+        //       return CardLaporanItem(name: 'Hadir', count: '10');
+        //     },
+        //   );
+        // }
+
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: GestureDetector(
+                onTap: () => controller.datePickerMonth(),
+                child: Text(
+                  DateFormat('MMMM yyyy', 'id').format(
+                    controller.now.value,
+                  ),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: GridView.count(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                crossAxisCount: 3,
+                childAspectRatio: 1.1,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                children: [
+                  CardLaporanItem(
+                    name: 'Hadir',
+                    count: controller.laporans.isNotEmpty
+                        ? controller.laporans.first.hadir.toString()
+                        : '0',
+                  ),
+                  CardLaporanItem(
+                    name: 'Tidak Hadir',
+                    count: controller.laporans.isNotEmpty
+                        ? controller.laporans.first.tidakHadir.toString()
+                        : '0',
+                  ),
+                  CardLaporanItem(
+                    name: 'izin',
+                    count: controller.laporans.isNotEmpty
+                        ? controller.laporans.first.izin.toString()
+                        : '0',
+                  ),
+                  CardLaporanItem(
+                    name: 'sakit',
+                    count: controller.laporans.isNotEmpty
+                        ? controller.laporans.first.sakit.toString()
+                        : '0',
+                  ),
+                  CardLaporanItem(
+                      name: 'cuti',
+                      count: controller.laporans.isNotEmpty
+                          ? controller.laporans.first.cuti.toString()
+                          : '0'),
+                  CardLaporanItem(
+                      name: 'tugas',
+                      count: controller.laporans.isNotEmpty
+                          ? controller.laporans.first.tugas.toString()
+                          : '0'),
+                  CardLaporanItem(
+                      name: 'Izin terlambat',
+                      count: controller.laporans.isNotEmpty
+                          ? controller.laporans.first.izinTerlambat.toString()
+                          : '0'),
+                  CardLaporanItem(
+                      name: 'Izin pulang cepat',
+                      count: controller.laporans.isNotEmpty
+                          ? controller.laporans.first.izinPulangCepat.toString()
+                          : '0'),
+                ],
+              ),
+            ),
+          ],
+        );
       }),
     );
   }

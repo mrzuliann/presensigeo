@@ -24,9 +24,9 @@ dependencies:
   # safe_device: ^1.1.4
   table_calendar: ^3.0.0 
   liquid_pull_to_refresh: ^3.0.1
+  flutter_localization: ^0.2.0
+  month_picker_dialog: ^2.6.0
   
-
-
   flutter: 
     sdk: flutter
   get_cli: ^1.8.1
