@@ -166,7 +166,8 @@ class MainMenuView extends GetView<MainMenuController> {
                       SizedBox(
                         height: 10,
                       ),
-                      controller.holidays.value.success == true
+                      controller.holidays.value.message?.toLowerCase() ==
+                              'bukan hari libur'
                           ? Center(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
