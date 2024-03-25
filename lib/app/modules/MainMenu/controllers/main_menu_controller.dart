@@ -5,6 +5,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:presensimob/app/data/home_provider.dart';
 import 'package:presensimob/app/models/gallery_response.dart';
 import 'package:presensimob/app/models/get_presensi_response.dart';
+import 'package:presensimob/app/models/global_response.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
 
@@ -21,6 +22,7 @@ class MainMenuController extends GetxController {
   bool isDevelopmentModeEnable = false;
   RxList<DataPresensi> presensi = (List<DataPresensi>.of([])).obs;
   RxList<DataGallery> gallery = (List<DataGallery>.of([])).obs;
+  Rx<GlobalResponse> holidays = GlobalResponse().obs;
 
   final GlobalKey<LiquidPullToRefreshState> refreshIndicatorKey =
       GlobalKey<LiquidPullToRefreshState>();
@@ -55,6 +57,7 @@ class MainMenuController extends GetxController {
 
   Future<void> getInitData() async {
     getInfoLogin();
+    getHolidays();
     getGallery();
   }
 
@@ -243,6 +246,13 @@ class MainMenuController extends GetxController {
       if (response?.data?.isNotEmpty ?? false) {
         gallery.value = response?.data ?? [];
       }
+    } finally {}
+  }
+
+  Future<void> getHolidays() async {
+    try {
+      var response = await HomeProvider().getHolidays();
+      holidays.value = response ?? GlobalResponse();
     } finally {}
   }
 

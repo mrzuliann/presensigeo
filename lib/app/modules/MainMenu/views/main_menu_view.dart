@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:presensimob/app/data/holidays_provider.dart';
 
 import '../controllers/main_menu_controller.dart';
 
@@ -15,9 +13,6 @@ class MainMenuView extends GetView<MainMenuController> {
 
   @override
   Widget build(BuildContext context) {
-    // Mendapatkan tanggal saat ini
-    final now = DateTime.now();
-
     Widget cardAbsen(
         {required Function()? onTap,
         required String name,
@@ -171,94 +166,148 @@ class MainMenuView extends GetView<MainMenuController> {
                       SizedBox(
                         height: 10,
                       ),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            cardAbsen(
-                              onTap: () => controller.goingToPresensiIn(),
-                              name: 'Presensi Masuk',
-                              timeWork:
-                                  "${controller.timeWorkPh1.value}-${controller.timeWorkLastPh1.value}",
-                              status: controller.statusMasuk.value,
-                              time: controller.timeMasuk.value != ""
-                                  ? controller.timeMasuk.value
-                                  : "00:00",
-                              action: controller.timeMasuk.value != ""
-                                  ? isComeInQuickly(
-                                      checkTime: DateTime(
-                                        controller.now.year,
-                                        controller.now.month,
-                                        controller.now.day,
-                                        parseTimeString(
-                                                controller.timeMasuk.value)
-                                            .hour,
-                                        parseTimeString(
-                                                controller.timeMasuk.value)
-                                            .minute,
-                                      ),
-                                      startHour: parseTimeString(
-                                              controller.timeWorkPh1.value)
-                                          .hour,
-                                      startMinute: parseTimeString(
-                                              controller.timeWorkPh1.value)
-                                          .minute,
-                                      endHour: parseTimeString(
-                                              controller.timeWorkLastPh1.value)
-                                          .hour,
-                                      endMinute: parseTimeString(
-                                              controller.timeWorkLastPh1.value)
-                                          .minute,
-                                    )
-                                      ? '(TIDAK HADIR)'
-                                      : '(TERLAMBAT)'
-                                  : 'BELUM MASUK',
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            cardAbsen(
-                              onTap: () => controller.goingToPresensiOut(),
-                              name: 'Presensi Keluar',
-                              timeWork:
-                                  "${controller.timeWorkPh2.value}-${controller.timeWorkLastPh2.value}",
-                              status: controller.statusKeluar.value,
-                              time: controller.timeKeluar.value != ""
-                                  ? controller.timeKeluar.value
-                                  : "00:00",
-                              action: controller.timeKeluar.value != ""
-                                  ? isComeInQuickly(
-                                      checkTime: DateTime(
-                                        controller.now.year,
-                                        controller.now.month,
-                                        controller.now.day,
-                                        parseTimeString(
-                                                controller.timeKeluar.value)
-                                            .hour,
-                                        parseTimeString(
-                                                controller.timeKeluar.value)
-                                            .minute,
-                                      ),
-                                      startHour: parseTimeString(
-                                              controller.timeWorkPh2.value)
-                                          .hour,
-                                      startMinute: parseTimeString(
-                                              controller.timeWorkPh2.value)
-                                          .minute,
-                                      endHour: parseTimeString(
-                                              controller.timeWorkLastPh2.value)
-                                          .hour,
-                                      endMinute: parseTimeString(
-                                              controller.timeWorkLastPh2.value)
-                                          .minute,
-                                    )
-                                      ? '(TIDAK HADIR)'
-                                      : '(TERLAMBAT)'
-                                  : 'BELUM MASUK',
+                      controller.holidays.value.success == true
+                          ? Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  cardAbsen(
+                                    onTap: () => controller.goingToPresensiIn(),
+                                    name: 'Presensi Masuk',
+                                    timeWork:
+                                        "${controller.timeWorkPh1.value}-${controller.timeWorkLastPh1.value}",
+                                    status: controller.statusMasuk.value,
+                                    time: controller.timeMasuk.value != ""
+                                        ? controller.timeMasuk.value
+                                        : "00:00",
+                                    action: controller.timeMasuk.value != ""
+                                        ? isComeInQuickly(
+                                            checkTime: DateTime(
+                                              controller.now.year,
+                                              controller.now.month,
+                                              controller.now.day,
+                                              parseTimeString(controller
+                                                      .timeMasuk.value)
+                                                  .hour,
+                                              parseTimeString(controller
+                                                      .timeMasuk.value)
+                                                  .minute,
+                                            ),
+                                            startHour: parseTimeString(
+                                                    controller
+                                                        .timeWorkPh1.value)
+                                                .hour,
+                                            startMinute: parseTimeString(
+                                                    controller
+                                                        .timeWorkPh1.value)
+                                                .minute,
+                                            endHour: parseTimeString(controller
+                                                    .timeWorkLastPh1.value)
+                                                .hour,
+                                            endMinute: parseTimeString(
+                                                    controller
+                                                        .timeWorkLastPh1.value)
+                                                .minute,
+                                          )
+                                            ? '(TIDAK HADIR)'
+                                            : '(TERLAMBAT)'
+                                        : 'BELUM MASUK',
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  cardAbsen(
+                                    onTap: () =>
+                                        controller.goingToPresensiOut(),
+                                    name: 'Presensi Keluar',
+                                    timeWork:
+                                        "${controller.timeWorkPh2.value}-${controller.timeWorkLastPh2.value}",
+                                    status: controller.statusKeluar.value,
+                                    time: controller.timeKeluar.value != ""
+                                        ? controller.timeKeluar.value
+                                        : "00:00",
+                                    action: controller.timeKeluar.value != ""
+                                        ? isComeInQuickly(
+                                            checkTime: DateTime(
+                                              controller.now.year,
+                                              controller.now.month,
+                                              controller.now.day,
+                                              parseTimeString(controller
+                                                      .timeKeluar.value)
+                                                  .hour,
+                                              parseTimeString(controller
+                                                      .timeKeluar.value)
+                                                  .minute,
+                                            ),
+                                            startHour: parseTimeString(
+                                                    controller
+                                                        .timeWorkPh2.value)
+                                                .hour,
+                                            startMinute: parseTimeString(
+                                                    controller
+                                                        .timeWorkPh2.value)
+                                                .minute,
+                                            endHour: parseTimeString(controller
+                                                    .timeWorkLastPh2.value)
+                                                .hour,
+                                            endMinute: parseTimeString(
+                                                    controller
+                                                        .timeWorkLastPh2.value)
+                                                .minute,
+                                          )
+                                            ? '(TIDAK HADIR)'
+                                            : '(TERLAMBAT)'
+                                        : 'BELUM MASUK',
+                                  )
+                                ],
+                              ),
                             )
-                          ],
-                        ),
-                      ),
+                          : Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: const [
+                                    Colors.blue,
+                                    Color(0xff003366)
+                                  ],
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'images/ic_holidays.png',
+                                    width: 62,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Hari Libur',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                        Text(
+                                          controller.holidays.value.message ??
+                                              '',
+                                          style: TextStyle(
+                                              color: Colors.yellow,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                       SizedBox(
                         height: 10,
                       ),

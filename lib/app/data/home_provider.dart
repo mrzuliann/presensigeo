@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:presensimob/app/models/gallery_response.dart';
 import 'package:presensimob/app/models/get_presensi_response.dart';
+import 'package:presensimob/app/models/global_response.dart';
 import 'package:sp_util/sp_util.dart';
 
 import '../utils/urls.dart';
@@ -25,7 +26,6 @@ class HomeProvider extends GetConnect {
         return null;
       }
     } catch (e) {
-      print('error $e');
       return null;
     }
   }
@@ -48,7 +48,20 @@ class HomeProvider extends GetConnect {
         return null;
       }
     } catch (e) {
-      print('error $e');
+      return null;
+    }
+  }
+
+  Future<GlobalResponse?> getHolidays() async {
+    try {
+      var token = SpUtil.getString('token', defValue: '');
+
+      var response = await get("${BaseUrl.baseUrl}holidays", headers: {
+        "Authorization": "Bearer $token",
+      });
+      
+      return GlobalResponse.fromJson(response.body);
+    } catch (e) {
       return null;
     }
   }

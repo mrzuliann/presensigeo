@@ -9,7 +9,7 @@ class LaporanResponse {
   @JsonKey(name: 'success')
   bool? success;
 
-@JsonKey(name: 'message')
+  @JsonKey(name: 'message')
   String? message;
 
   @JsonKey(name: 'data')
