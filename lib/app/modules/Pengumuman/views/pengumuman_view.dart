@@ -34,7 +34,7 @@ class PengumumanView extends GetView<PengumumanController> {
                 // Tindakan yang ingin dilakukan ketika tombol ditekan
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.teal,
+                backgroundColor: Colors.teal,
                 maximumSize: Size(
                     380, double.infinity), // Mengatur lebar maksimum tombol
                 padding: const EdgeInsets.all(16),
@@ -66,7 +66,7 @@ class PengumumanView extends GetView<PengumumanController> {
                 // Tindakan yang ingin dilakukan ketika tombol ditekan
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.teal,
+                backgroundColor: Colors.teal,
                 maximumSize: Size(
                     380, double.infinity), // Mengatur lebar maksimum tombol
                 padding: const EdgeInsets.all(16),
@@ -124,7 +124,7 @@ class PengumumanView extends GetView<PengumumanController> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.teal,
+                backgroundColor: Colors.teal,
                 maximumSize: Size(380, double.infinity),
                 padding: const EdgeInsets.all(16),
               ),
