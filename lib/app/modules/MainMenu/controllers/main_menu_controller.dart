@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:presensimob/app/data/home_provider.dart';
+import 'package:presensimob/app/models/event_response.dart';
 import 'package:presensimob/app/models/gallery_response.dart';
 import 'package:presensimob/app/models/get_presensi_response.dart';
 import 'package:presensimob/app/models/global_response.dart';
@@ -14,6 +15,10 @@ import '../../../models/login_request.dart';
 import '../../../models/login_response.dart';
 
 class MainMenuController extends GetxController {
+  final GlobalKey<LiquidPullToRefreshState> refreshIndicatorKey =
+      GlobalKey<LiquidPullToRefreshState>();
+  var now = DateTime.now();
+
   bool isJailBroken = false;
   bool canMockLocation = false;
   bool isRealDevice = true;
@@ -22,31 +27,22 @@ class MainMenuController extends GetxController {
   bool isDevelopmentModeEnable = false;
   RxList<DataPresensi> presensi = (List<DataPresensi>.of([])).obs;
   RxList<DataGallery> gallery = (List<DataGallery>.of([])).obs;
+  RxList<EventDTO> events = (List<EventDTO>.of([])).obs;
   Rx<GlobalResponse> holidays = GlobalResponse().obs;
-
-  final GlobalKey<LiquidPullToRefreshState> refreshIndicatorKey =
-      GlobalKey<LiquidPullToRefreshState>();
-
-  var now = DateTime.now();
-
-  final count = 0.obs;
+  Rx<Data> loginData = Data().obs;
 
   RxBool isAbsen = false.obs;
   RxBool isLoading = false.obs;
+  RxBool isLoadingEvent = false.obs;
 
   RxString timeWorkPh1 = '00:00'.obs;
   RxString timeWorkLastPh1 = '00:00'.obs;
-
   RxString timeWorkPh2 = '00:00'.obs;
   RxString timeWorkLastPh2 = '00:00'.obs;
-
   RxString timeMasuk = '00:00'.obs;
   RxString statusMasuk = ''.obs;
-
   RxString timeKeluar = '00:00'.obs;
   RxString statusKeluar = ''.obs;
-
-  Rx<Data> loginData = Data().obs;
 
   @override
   void onInit() {
@@ -56,12 +52,13 @@ class MainMenuController extends GetxController {
   }
 
   Future<void> getInitData() async {
-    getInfoLogin();
-    getHolidays();
-    getGallery();
+    fetchInfoLogin();
+    fetchHolidays();
+    fetchEvents();
+    fetchGallery();
   }
 
-  Future<void> getInfoLogin() async {
+  Future<void> fetchInfoLogin() async {
     try {
       isLoading(true);
       var request = LoginRequest(
@@ -239,7 +236,7 @@ class MainMenuController extends GetxController {
     } finally {}
   }
 
-  Future<void> getGallery() async {
+  Future<void> fetchGallery() async {
     try {
       var response = await HomeProvider().getGallery();
 
@@ -249,14 +246,23 @@ class MainMenuController extends GetxController {
     } finally {}
   }
 
-  Future<void> getHolidays() async {
+  Future<void> fetchHolidays() async {
     try {
       var response = await HomeProvider().getHolidays();
       holidays.value = response ?? GlobalResponse();
     } finally {}
   }
 
-  goingToPresensiIn() async {
+  Future<void> fetchEvents() async {
+    try {
+      var response = await HomeProvider().getEventList();
+      if (response?.success == true) {
+        events.value = response?.data ?? [];
+      }
+    } finally {}
+  }
+
+  void goingToPresensiIn() async {
     var result = await Get.toNamed(Routes.PRESENSI_IN, arguments: {
       'latitude': loginData.value.school?.latitude ?? '',
       'longitude': loginData.value.school?.longitude ?? '',
@@ -272,7 +278,7 @@ class MainMenuController extends GetxController {
     }
   }
 
-  goingToPresensiOut() async {
+  void goingToPresensiOut() async {
     var result = await Get.toNamed(Routes.PRESENSI_OUT, arguments: {
       'latitude': loginData.value.school?.latitude ?? '',
       'longitude': loginData.value.school?.longitude ?? '',
@@ -287,20 +293,44 @@ class MainMenuController extends GetxController {
       );
     }
   }
+
+  TimeOfDay parseTimeString(String time) {
+    final List<String> parts = time.split(':');
+    final int hour = int.parse(parts[0]);
+    final int minute = int.parse(parts[1]);
+
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
+  bool isComeInQuickly({
+    required DateTime checkTime,
+    required int startHour,
+    required int startMinute,
+    required int endHour,
+    required int endMinute,
+  }) {
+    DateTime endRestrictedTime = DateTime(
+      checkTime.year,
+      checkTime.month,
+      checkTime.day,
+      endHour,
+      endMinute,
+    );
+
+    return checkTime.isBefore(endRestrictedTime);
+  }
 }
 
 extension DateHelpers on DateTime {
   bool isToday() {
     final now = DateTime.now();
-    return now.day == this.day &&
-        now.month == this.month &&
-        now.year == this.year;
+    return now.day == day && now.month == month && now.year == year;
   }
 
   bool isYesterday() {
     final yesterday = DateTime.now().subtract(Duration(days: 1));
-    return yesterday.day == this.day &&
-        yesterday.month == this.month &&
-        yesterday.year == this.year;
+    return yesterday.day == day &&
+        yesterday.month == month &&
+        yesterday.year == year;
   }
 }

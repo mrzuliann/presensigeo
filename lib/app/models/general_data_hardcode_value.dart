@@ -15,7 +15,7 @@ class ListGeneralHardCodeDataValue {
   factory ListGeneralHardCodeDataValue.fromMap(Map<String, dynamic> map) {
     return ListGeneralHardCodeDataValue(
       data: List<GeneralHardCodeDataValue>.from(
-          map['data']?.map((x) => GeneralHardCodeDataValue.fromMap(x))),
+          map['data']?.map(GeneralHardCodeDataValue.fromMap)),
     );
   }
 
