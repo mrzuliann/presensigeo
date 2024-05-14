@@ -16,6 +16,9 @@ class MainMenuView extends GetView<MainMenuController> {
 
   @override
   Widget build(BuildContext context) {
+    String avatarBaseURL = 'http://36.64.224.194/storage/avatars/';
+    String avatarFileName = SpUtil.getString('avatar') ?? '';
+    String avatarURL = '$avatarBaseURL$avatarFileName';
     return Scaffold(
       // appBar: AppBar(
       //   backgroundColor: Colors.teal,
@@ -29,6 +32,7 @@ class MainMenuView extends GetView<MainMenuController> {
       //   title: const Text('I.H.S.A.N'),
       //   centerTitle: true,
       // ),
+
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: SafeArea(
         child: Stack(
@@ -66,18 +70,39 @@ class MainMenuView extends GetView<MainMenuController> {
                   child: ListView(
                     padding: EdgeInsets.all(20),
                     children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors
+                            .grey, // Warna latar belakang jika gambar tidak tersedia
+                        child: ClipOval(
+                          child: Image.network(
+                            avatarURL.isNotEmpty ? avatarURL : '',
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                'images/yes.jpeg', // Lokasi gambar default di dalam proyek Flutter
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
                       Text(
                         "Selamat Datang 👋👋👋,",
                         style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Roboto',
+                          color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 10),
                       Text(
-                        "Di Instruksi Harian Siap Ngajar, anda login sebagai: \nNama : ${SpUtil.getString("name")}\nEmail  : ${SpUtil.getString("email")} \nNIP      : ${SpUtil.getString("nip")}, \nLokasi :  ${SpUtil.getString("school_name")}",
+                        "Di Instruksi Harian Siap Ngajar, anda login sebagai: \nNama : ${SpUtil.getString("name")} \nNIP      : ${SpUtil.getString("nip")}, \nLokasi :  ${SpUtil.getString("school_name")}",
                         style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w600),
+                            color: Colors.white, fontWeight: FontWeight.w600),
                       ),
                       _absenSection(),
                       _eventSection(),
@@ -136,14 +161,14 @@ class MainMenuView extends GetView<MainMenuController> {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 20,
+          horizontal: 16,
+          vertical: 16,
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: const [
               Colors.teal,
-              Color.fromARGB(255, 121, 199, 191),
+              Color.fromARGB(255, 121, 217, 208),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -406,7 +431,8 @@ class MainMenuView extends GetView<MainMenuController> {
                         Container(
                           padding: EdgeInsets.all(4),
                           decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.3),
+                            color: Color.fromARGB(255, 13, 151, 135)
+                                .withOpacity(0.3),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Image.asset(

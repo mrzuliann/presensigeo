@@ -78,6 +78,7 @@ class LoginController extends GetxController {
           await Geolocator.requestPermission();
           SpUtil.putString('name', response?.data?.name ?? '');
           SpUtil.putString('nip', response?.data?.nip ?? '');
+          SpUtil.putString('avatar', response?.data?.avatar ?? '');
           // SpUtil.putInt('school_id', data['school_id']);
           SpUtil.putString('email', response?.data?.email ?? '');
           SpUtil.putString('id', response?.data?.id.toString() ?? '');

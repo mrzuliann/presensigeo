@@ -32,7 +32,7 @@ class PresensiOutView extends GetView<PresensiOutController> {
               return Stack(
                 children: [
                   Obx(() => GoogleMap(
-                        mapType: MapType.normal,
+                        mapType: MapType.satellite,
                         markers: Set<Marker>.of(controller.markers),
                         myLocationEnabled: true,
                         myLocationButtonEnabled: false,

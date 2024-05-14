@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:presensimob/app/components/card_laporan_item.dart';
 import 'package:presensimob/app/modules/LaporanPresensi/controllers/laporan_presensi_controller.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
@@ -55,9 +56,9 @@ class LaporanPresensiView extends GetView<LaporanPresensiController> {
                     controller.now.value,
                   ),
                   style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      backgroundColor: Colors.black38),
                 ),
               ),
             ),
@@ -106,6 +107,11 @@ class LaporanPresensiView extends GetView<LaporanPresensiController> {
                           : '0'),
                   CardLaporanItem(
                       name: 'Izin terlambat',
+                      count: controller.laporans.isNotEmpty
+                          ? controller.laporans.first.izinTerlambat.toString()
+                          : '0'),
+                  CardLaporanItem(
+                      name: 'Acara',
                       count: controller.laporans.isNotEmpty
                           ? controller.laporans.first.izinTerlambat.toString()
                           : '0'),
