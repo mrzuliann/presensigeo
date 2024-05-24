@@ -31,9 +31,7 @@ void main() async {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: const [
-          Locale('id', 'ID'),
-        ],
+        supportedLocales: const [Locale('id', 'ID')],
         getPages: AppPages.routes,
         locale: const Locale('id_ID'),
         builder: EasyLoading.init(),

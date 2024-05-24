@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:presensimob/app/data/login_provider.dart';
 import 'package:presensimob/app/models/login_request.dart';
 import 'package:presensimob/app/routes/app_pages.dart';
 import 'package:sp_util/sp_util.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LoginController extends GetxController {
   TextEditingController txtEmail = TextEditingController();
@@ -75,7 +75,7 @@ class LoginController extends GetxController {
         var response = await LoginProvider().newAuth(request: request);
 
         if (response?.success == true) {
-          await Geolocator.requestPermission();
+          // await Geolocator.requestPermission();
           SpUtil.putString('name', response?.data?.name ?? '');
           SpUtil.putString('nip', response?.data?.nip ?? '');
           SpUtil.putString('avatar', response?.data?.avatar ?? '');
@@ -94,6 +94,11 @@ class LoginController extends GetxController {
           SpUtil.putDouble('radius',
               double.parse('${response?.data?.school?.radius ?? '0'}'));
           SpUtil.putBool('isLogin', true);
+
+          if (await Permission.location.isGranted) {
+          } else {
+            Permission.location.request();
+          }
 
           Get.offAllNamed(Routes.MAIN_MENU);
           Get.snackbar(
