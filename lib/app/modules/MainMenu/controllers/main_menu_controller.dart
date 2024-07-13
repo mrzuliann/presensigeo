@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:presensimob/app/data/home_provider.dart';
 import 'package:presensimob/app/models/event_response.dart';
 import 'package:presensimob/app/models/gallery_response.dart';
@@ -18,6 +19,8 @@ class MainMenuController extends GetxController {
   final GlobalKey<LiquidPullToRefreshState> refreshIndicatorKey =
       GlobalKey<LiquidPullToRefreshState>();
   var now = DateTime.now();
+
+  PersistentTabController? persistentTabController;
 
   bool isJailBroken = false;
   bool canMockLocation = false;

@@ -1,5 +1,5 @@
 name: presensimob
-version: 1.0.0+2
+version: 2.1.0+4
 publish_to: none
 description: A new Flutter project.
 environment: 
@@ -27,6 +27,7 @@ dependencies:
   month_picker_dialog: ^3.0.0
   fl_chart: ^0.67.0
   permission_handler: ^11.3.1
+  persistent_bottom_nav_bar: ^6.2.1
   
   flutter: 
     sdk: flutter
